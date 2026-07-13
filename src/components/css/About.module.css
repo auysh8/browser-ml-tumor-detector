@@ -14,6 +14,54 @@
   max-width: 1000px;
 }
 
+.hero {
+  margin-bottom: 40px;
+}
+
+.hero_tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: rgba(37, 99, 235, 0.08);
+  color: #2563EB;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.hero_title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #0F172A;
+  margin-bottom: 8px;
+}
+
+.hero_subtitle {
+  font-size: 15px;
+  color: #64748B;
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.hero_badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  font-size: 12px;
+  color: #0F172A;
+}
+
 .section {
   margin-bottom: 32px;
 }
@@ -89,4 +137,72 @@
   font-size: 14px;
   color: #64748B;
   margin-top: 4px;
+}
+
+.highlights_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.highlight_card {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 28px -12px rgba(15, 23, 42, 0.25);
+}
+
+.highlight_title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.highlight_text {
+  font-size: 14px;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+/* Dark mode overrides for About page */
+:global(.dark) .page_wrapper {
+  background-color: #020617;
+}
+
+:global(.dark) .hero_title,
+:global(.dark) .section_title,
+:global(.dark) .card_title,
+:global(.dark) .highlight_title {
+  color: #E5E7EB;
+}
+
+:global(.dark) .hero_subtitle,
+:global(.dark) .card_subtitle,
+:global(.dark) .card_text,
+:global(.dark) .highlight_text {
+  color: #9CA3AF;
+}
+
+:global(.dark) .badge {
+  background-color: #020617;
+  border-color: #1F2937;
+  color: #E5E7EB;
+}
+
+:global(.dark) .hero_tag {
+  background-color: rgba(37, 99, 235, 0.4);
+  color: #BFDBFE;
+}
+
+:global(.dark) .card,
+:global(.dark) .highlight_card {
+  background-color: #020617;
+  border: 1px solid #1F2937;
+  box-shadow: 0 12px 36px -16px rgba(0, 0, 0, 0.9);
+}
+
+:global(.dark) .avatar_circle {
+  background-color: #020617;
+  border-color: #1D4ED8;
 }

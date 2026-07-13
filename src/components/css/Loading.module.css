@@ -111,3 +111,21 @@
   50% { width: 70%; }
   100% { width: 100%; transform: translateX(100%); }
 }
+
+/* Dark mode overrides for loading state */
+:global(.dark) .loading_card {
+  background: #020617;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 1);
+}
+
+:global(.dark) .title {
+  color: #E5E7EB;
+}
+
+:global(.dark) .subtitle {
+  color: #9CA3AF;
+}
+
+:global(.dark) .progress_bar_container {
+  background-color: #111827;
+}

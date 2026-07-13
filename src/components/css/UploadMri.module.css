@@ -143,3 +143,44 @@
   color: #94a3b8;
   font-size: 12px;
 }
+
+/* Dark mode overrides for upload card */
+:global(.dark) .main_container {
+  background: #020617;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 1);
+}
+
+:global(.dark) .header_icon {
+  color: #60A5FA;
+  background: #020617;
+}
+
+:global(.dark) .heading {
+  color: #E5E7EB;
+}
+
+:global(.dark) .instructions {
+  color: #9CA3AF;
+}
+
+:global(.dark) .input_area {
+  border-color: #1F2937;
+  background-color: #020617;
+}
+
+:global(.dark) .input_area:hover {
+  border-color: #2563EB;
+  background-color: #020617;
+}
+
+:global(.dark) .drop_title {
+  color: #E5E7EB;
+}
+
+:global(.dark) .drop_subtitle {
+  color: #9CA3AF;
+}
+
+:global(.dark) .footer {
+  color: #6B7280;
+}

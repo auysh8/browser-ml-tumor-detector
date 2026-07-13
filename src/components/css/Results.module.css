@@ -223,3 +223,23 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Dark mode overrides for results */
+:global(.dark) .card_container {
+  background: #020617;
+  border-color: #1F2937;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 1);
+}
+
+:global(.dark) .tumor_type,
+:global(.dark) .error_title {
+  color: #F9FAFB;
+}
+
+:global(.dark) .error_subtitle {
+  color: #E5E7EB;
+}
+
+:global(.dark) .image_container {
+  background-color: #020617;
+}

@@ -124,3 +124,43 @@ body.dark-mode .dark_mode_btn:hover {
   background-color: #334155;
   border-color: #475569;
 }
+
+/* Dark mode overrides when App root has class "dark" */
+:global(.dark) .top_bar {
+  background: #020617;
+  box-shadow: 0 12px 40px -12px rgba(15, 23, 42, 0.9);
+}
+
+:global(.dark) .app_name_logo {
+  color: #E5E7EB;
+}
+
+:global(.dark) .nav_items {
+  background-color: #020617;
+}
+
+:global(.dark) .nav_items li span {
+  color: #CBD5F5;
+}
+
+:global(.dark) .nav_items li span:hover {
+  color: #E5E7EB;
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
+:global(.dark) .nav_items li:first-child span {
+  background-color: #2563EB;
+  color: #EFF6FF;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5);
+}
+
+:global(.dark) .top_bar button {
+  border-color: #1F2937;
+  color: #E5E7EB;
+}
+
+:global(.dark) .top_bar button:hover {
+  background-color: #111827;
+  color: #F9FAFB;
+  border-color: #1F2937;
+}

@@ -13,6 +13,13 @@ html, body {
   background-color: #ECEEF3;
 }
 
+/* 2b. Dark mode root wrapper (toggled in App.tsx) */
+.dark {
+  background-color: #020617;
+  color: #E5E7EB;
+  min-height: 100vh;
+}
+
 /* 3. Remove List Bullets */
 ul, ol {
   list-style: none;

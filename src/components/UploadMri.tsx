@@ -31,8 +31,7 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
         Drag and drop your MRI scans to continue
       </p>
 
-      {/* FIX: Conditionally add 'has_preview' class */}
-      <div className={`${styles.input_area} ${preview ? styles.has_preview : ''}`}>
+      <div className={`${styles.input_area} ${preview ? styles.has_preview : ""}`}>
         <input
           type="file"
           name="file_upload"
@@ -42,7 +41,12 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
         />
         {preview ? (
           <label htmlFor="file_upload" style={{ width: "100%", cursor: "pointer" }}>
-            <img className={styles.preview} src={preview} alt="MRI Scan" height="200px" />
+            <img
+              className={styles.preview}
+              src={preview}
+              alt="MRI Scan"
+              height="200px"
+            />
           </label>
         ) : (
           <label htmlFor="file_upload">
@@ -55,11 +59,14 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
         )}
       </div>
 
-      <button 
-        className={styles.submit_button} 
+      <button
+        className={styles.submit_button}
         onClick={() => file && onClick(file)}
         disabled={!file}
-        style={{ opacity: file ? 1 : 0.5, cursor: file ? 'pointer' : 'not-allowed' }}
+        style={{
+          opacity: file ? 1 : 0.5,
+          cursor: file ? "pointer" : "not-allowed",
+        }}
       >
         <BsStars size={18} style={{ transform: "rotate(90deg)" }} />
         <span>Analyze Scans</span>
@@ -68,9 +75,7 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
 
       <div className={styles.footer}>
         <IoMdLock size={14} />
-        <span>
-          Data is encrypted end-to-end and processed locally.
-        </span>
+        <span>Data is encrypted end-to-end and processed locally.</span>
       </div>
     </div>
   );
