@@ -1,9 +1,9 @@
 {
-  "name": "brain-tumor-detector",
+  "name": "browser-ml-tumor-detector",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://auysh8.github.io/brain-tumor-detector",
+  "homepage": "https://auysh8.github.io/browser-ml-tumor-detector",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
