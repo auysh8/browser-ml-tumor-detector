@@ -2,7 +2,7 @@
 
 A browser-based MRI scan classifier built with React and TensorFlow.js. Upload an MRI image and get an instant prediction — fully client-side, no server required, no data uploaded.
 
-🔗 **Live Demo:** [auysh8.github.io/brain-tumor-detector](https://auysh8.github.io/brain-tumor-detector)
+🔗 **Live Demo:** [auysh8.github.io/browser-ml-tumor-detector](https://auysh8.github.io/)
 
 ---
 
@@ -28,8 +28,8 @@ A browser-based MRI scan classifier built with React and TensorFlow.js. Upload a
 ### Clone the repo
 
 ```bash
-git clone https://github.com/auysh8/brain-tumor-detector.git
-cd brain-tumor-detector
+git clone https://github.com/auysh8/browser-ml-tumor-detector.git
+cd browser-ml-tumor-detector
 ```
 
 ### Install dependencies
