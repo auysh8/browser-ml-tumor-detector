@@ -186,7 +186,7 @@ Ensure you have the following installed:
 - Or click to select a file from your device
 
 ### Step 2: View Prediction Results
-![Results Interface](image.png)
+![Results Interface](Results.png)
 
 - **Tumor Probability**: Percentage likelihood of a tumor
 - **Heatmap**: Visual overlay highlighting suspicious regions
