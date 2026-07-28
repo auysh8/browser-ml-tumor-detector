@@ -62,22 +62,6 @@ browser-ml-tumor-detector/
 
 ---
 
-## 🏗️ Architecture & Data Flow
-
-```mermaid
-flowchart TD
-    A[User Selects MRI Image] --> B[UploadMri Component]
-    B --> C[Client-side Image Preprocessing]
-    C --> D[Tensor Conversion & Normalization]
-    D --> E[TensorFlow.js Engine in Browser]
-    F[public/tfjs_model/model.json] -->|Loaded into memory| E
-    E --> G[Inference Matrix Computation]
-    G --> H[Results Component]
-    H --> I[Display Classification & Confidence Metrics]
-```
-
----
-
 ## 🛠️ Tech Stack
 
 | Category | Technologies |
