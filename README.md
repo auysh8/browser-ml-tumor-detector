@@ -1,11 +1,11 @@
 # Browser ML Tumor Detector
 
-An on-device machine learning web application that classifies brain tumors from MRI scans directly within the browser with zero server dependencies. Built with TensorFlow.js, React, and TypeScript for private, real-time medical imaging diagnostics.
+A client-side machine learning web application that classifies brain tumors from MRI scans directly within the browser with zero server dependencies. Built with TensorFlow.js, React, and TypeScript for private, real-time medical imaging diagnostics.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
@@ -38,6 +38,42 @@ Brain tumor detection traditionally requires specialized software, heavy computa
 
 ---
 
+## Repository Structure
+
+```text
+browser-ml-tumor-detector/
+├── public/
+│   └── tfjs_model/              # Quantized TensorFlow.js neural network files
+│       ├── group1-shard1of4.bin
+│       ├── group1-shard2of4.bin
+│       ├── group1-shard3of4.bin
+│       ├── group1-shard4of4.bin
+│       └── model.json           # Model topology and manifest
+├── src/
+│   ├── components/
+│   │   ├── css/                 # CSS Modules for targeted styling
+│   │   │   ├── About.module.css
+│   │   │   ├── Loading.module.css
+│   │   │   ├── Results.module.css
+│   │   │   ├── TopBar.module.css
+│   │   │   └── UploadMri.module.css
+│   │   ├── About.tsx            # Project explanation and guidelines
+│   │   ├── Loading.tsx          # Inference loading state view
+│   │   ├── Results.tsx          # Model output visualization component
+│   │   ├── TopBar.tsx           # Application navigation header
+│   │   └── UploadMri.tsx        # File drag-and-drop & pre-processing handler
+│   ├── App.tsx                  # Root application state & lifecycle
+│   ├── main.tsx                 # Entry point
+│   └── index.css                # Global base styles
+├── eslint.config.js
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
+
+---
+
 ## Architecture & Data Flow
 
 ```mermaid
@@ -57,7 +93,7 @@ flowchart TD
 | :--- | :--- |
 | **Frontend Framework** | React 19, TypeScript, Vite |
 | **Machine Learning** | TensorFlow.js (GraphModel runtime, WebGL/WASM acceleration) |
-| **Icons & UI** | React Icons, Tailwind CSS |
+| **Styling** | Modular CSS (CSS Modules), Custom CSS, React Icons |
 | **Tooling** | ESLint, TypeScript Compiler |
 | **Hosting & Deployment** | Vercel, GitHub Pages |
 
@@ -67,7 +103,7 @@ flowchart TD
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+ recommended)
+- Node.js (v18+ recommended)
 - npm or pnpm
 
 ### Installation
@@ -126,3 +162,4 @@ This project is open-source and licensed under the MIT License. See the [LICENSE
 - GitHub: [https://github.com/auysh8](https://github.com/auysh8)
 - LinkedIn: [https://linkedin.com/in/pankajbhandari2004](https://linkedin.com/in/pankajbhandari2004)
 - Email: [pankajbhandari0714@gmail.com](mailto:pankajbhandari0714@gmail.com)
+
