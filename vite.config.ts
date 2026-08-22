@@ -4,8 +4,7 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // IMPORTANT: This line fixes the white screen!
-  base: "/browser-ml-tumor-detector/",
+  base: "/",
   build: {
     chunkSizeWarningLimit: 1600,
   },
