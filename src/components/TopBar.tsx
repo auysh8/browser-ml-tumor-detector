@@ -4,25 +4,53 @@ import { MdOutlineDocumentScanner, MdDarkMode, MdLightMode } from "react-icons/m
 interface TopBarProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+  currentView?: 'upload' | 'about';
+  onNavigate?: (view: 'upload' | 'about') => void;
 }
 
-const TopBar = ({ isDarkMode, toggleDarkMode }: TopBarProps) => {
+const TopBar = ({ isDarkMode, toggleDarkMode, currentView = 'upload', onNavigate }: TopBarProps) => {
   return (
-    <div className={styles.top_bar}>
+    <header className={styles.top_bar} role="banner">
       <div className={styles.app_name_logo}>
-        <MdOutlineDocumentScanner />
+        <MdOutlineDocumentScanner aria-hidden="true" />
         <span className="appname">NeuroScanAI</span>
       </div>
-      <div className={styles.nav_bar}>
-        <ul className={styles.nav_items}>
-            <li><span>Upload</span></li>
-            <li><span>About</span></li>
+      
+      <nav className={styles.nav_bar} aria-label="Main navigation">
+        <ul className={styles.nav_items} role="tablist">
+          <li role="presentation">
+            <button
+              role="tab"
+              aria-selected={currentView === 'upload'}
+              aria-controls="upload-panel"
+              className={`${styles.nav_item} ${currentView === 'upload' ? styles.active : ''}`}
+              onClick={() => onNavigate?.('upload')}
+            >
+              Upload
+            </button>
+          </li>
+          <li role="presentation">
+            <button
+              role="tab"
+              aria-selected={currentView === 'about'}
+              aria-controls="about-panel"
+              className={`${styles.nav_item} ${currentView === 'about' ? styles.active : ''}`}
+              onClick={() => onNavigate?.('about')}
+            >
+              About
+            </button>
+          </li>
         </ul>
-      </div>
-      <button onClick={toggleDarkMode}>
-        {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
+      </nav>
+      
+      <button
+        onClick={toggleDarkMode}
+        className={styles.theme_toggle}
+        aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        {isDarkMode ? <MdLightMode aria-hidden="true" /> : <MdDarkMode aria-hidden="true" />}
       </button>
-    </div>
+    </header>
   );
 };
 

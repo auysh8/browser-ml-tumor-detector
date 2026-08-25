@@ -1,40 +1,14 @@
-/* 1. The Universal Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; /* Keeps padding from breaking element width */
-}
+/* Import global styles and variables */
+@import './styles/variables.css';
 
-/* 2. Body Defaults */
-html, body {
-  font-family: 'Inter', sans-serif; /* Your chosen font */
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased; /* Makes text look sharper */
-  background-color: #ECEEF3;
-}
+/* The universal reset is now in variables.css */
 
-/* 2b. Dark mode root wrapper (toggled in App.tsx) */
-.dark {
-  background-color: #020617;
-  color: #E5E7EB;
-  min-height: 100vh;
-}
-
-/* 3. Remove List Bullets */
-ul, ol {
-  list-style: none;
-}
-
-/* 4. Remove Link Styles */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* 5. Reset Buttons & Inputs (Optional but helpful) */
-button, input {
-  border: none;
-  outline: none;
-  background: none;
-  font-family: inherit;
+/* Additional app-specific base styles */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+  min-height: calc(100vh - var(--header-height));
 }
