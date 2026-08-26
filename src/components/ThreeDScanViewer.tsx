@@ -25,7 +25,7 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
 
     img.onload = () => {
       setLoading(false);
-      const GRID_SIZE = 44;
+      const GRID_SIZE = 50;
       const offscreen = document.createElement("canvas");
       offscreen.width = GRID_SIZE;
       offscreen.height = GRID_SIZE;
@@ -36,8 +36,8 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
       offCtx.drawImage(img, 0, 0, GRID_SIZE, GRID_SIZE);
       const imgData = offCtx.getImageData(0, 0, GRID_SIZE, GRID_SIZE).data;
 
-      // Build height map matrix
-      const heights: number[][] = [];
+      // Build height map matrix & apply box blur smoothing to filter extreme pixel noise
+      const rawHeights: number[][] = [];
       for (let y = 0; y < GRID_SIZE; y++) {
         const row: number[] = [];
         for (let x = 0; x < GRID_SIZE; x++) {
@@ -46,11 +46,33 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
           if (isInverted) b = 255 - b;
           row.push(b);
         }
+        rawHeights.push(row);
+      }
+
+      // Smooth heights with 3x3 box kernel
+      const heights: number[][] = [];
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const row: number[] = [];
+        for (let x = 0; x < GRID_SIZE; x++) {
+          let sum = 0;
+          let count = 0;
+          for (let dy = -1; dy <= 1; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+              const ny = y + dy;
+              const nx = x + dx;
+              if (ny >= 0 && ny < GRID_SIZE && nx >= 0 && nx < GRID_SIZE) {
+                sum += rawHeights[ny][nx];
+                count++;
+              }
+            }
+          }
+          row.push(sum / count);
+        }
         heights.push(row);
       }
 
       const render = () => {
-        angle += 0.007;
+        angle += 0.005;
 
         const rect = canvas.getBoundingClientRect();
         const width = (canvas.width = rect.width || 600);
@@ -62,7 +84,7 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
         const centerX = width / 2;
         const centerY = height / 2 + 15;
 
-        const scale = Math.min(width, height) / (GRID_SIZE * 1.7);
+        const scale = Math.min(width, height) / (GRID_SIZE * 1.8);
         const tilt = 0.52;
 
         const cosA = Math.cos(angle);
@@ -76,7 +98,8 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
           for (let x = 0; x < GRID_SIZE; x++) {
             const val = heights[y][x];
             const normZ = val / 255;
-            const elevation = normZ * 38;
+            // Moderated elevation factor for smooth topographical contours
+            const elevation = normZ * 22;
 
             const gx = x - half;
             const gy = y - half;
@@ -99,7 +122,7 @@ const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProp
             const curr = projected[y][x];
 
             if (curr.normZ > 0.6) {
-              ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + curr.normZ * 0.45})`;
+              ctx.strokeStyle = `rgba(239, 68, 68, ${0.4 + curr.normZ * 0.5})`;
             } else if (curr.normZ > 0.3) {
               ctx.strokeStyle = `rgba(56, 189, 248, ${0.3 + curr.normZ * 0.4})`;
             } else {
