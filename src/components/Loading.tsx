@@ -13,9 +13,9 @@ const Loading = () => {
       </div>
 
       <div className={styles.text_content}>
-        <h2 className={styles.title}>Neural Inference in Progress</h2>
+        <h2 className={styles.title}>Neural Tensor Inference</h2>
         <p className={styles.subtitle}>
-          TensorFlow.js is evaluating tensor probabilities across neural network graph layers...
+          Running GraphModel graph evaluation across WebGL GPU memory shaders [1, 224, 224, 3]...
         </p>
       </div>
 

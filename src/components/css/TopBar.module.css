@@ -3,115 +3,172 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1100px;
   background-color: var(--m3-surface-container-lowest);
-  padding: 12px 24px;
+  padding: 10px 20px;
   box-shadow: var(--m3-elevation-1);
-  border-radius: var(--m3-shape-corner-xl);
-  margin: 1.5rem auto 2rem auto;
-  transition: background-color var(--m3-motion-duration) var(--m3-motion-standard),
-              box-shadow var(--m3-motion-duration) var(--m3-motion-standard);
+  border-radius: var(--m3-shape-corner-l);
+  margin: 1.25rem auto 1.5rem auto;
   border: 1px solid var(--m3-outline-variant);
+  gap: 1rem;
 }
 
-.app_name_logo {
+.left_section {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--m3-on-surface);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+}
+
+.brand_logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
   user-select: none;
 }
 
-.logo_badge {
+.logo_icon_box {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--m3-shape-corner-m);
+  background-color: var(--m3-primary-container);
+  color: var(--m3-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: var(--m3-shape-corner-m);
-  background-color: var(--m3-secondary-container);
-  color: var(--m3-primary);
-  font-size: 24px;
-  transition: transform var(--m3-motion-duration) var(--m3-motion-spring);
+  font-size: 22px;
 }
 
-.app_name_logo:hover .logo_badge {
-  transform: scale(1.08) rotate(-4deg);
+.app_title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--m3-on-surface);
+  letter-spacing: -0.02em;
 }
 
-.nav_bar {
-  display: flex;
-  align-items: center;
-}
-
-.nav_items {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--m3-surface-container-high);
-  padding: 6px;
+.version_badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
   border-radius: var(--m3-shape-corner-full);
+  background-color: var(--m3-secondary-container);
+  color: var(--m3-outline);
+  font-family: var(--font-mono);
 }
 
-.nav_btn {
+/* Center Telemetry & Tabs */
+.center_section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.telemetry_pills {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
-  border-radius: var(--m3-shape-corner-full);
-  font-size: 0.9rem;
+}
+
+.telemetry_pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--m3-on-surface);
+  padding: 4px 12px;
+  border-radius: var(--m3-shape-corner-full);
+  background-color: var(--m3-surface-container-low);
+  color: var(--m3-outline);
+  border: 1px solid var(--m3-outline-variant);
+  white-space: nowrap;
+}
+
+.status_dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--m3-success);
+  box-shadow: 0 0 6px var(--m3-success);
+}
+
+.nav_tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--m3-surface-container-low);
+  padding: 4px;
+  border-radius: var(--m3-shape-corner-full);
+  border: 1px solid var(--m3-outline-variant);
+}
+
+.nav_tab_btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--m3-shape-corner-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--m3-outline);
   cursor: pointer;
   transition: all var(--m3-motion-duration) var(--m3-motion-standard);
-  position: relative;
 }
 
-.nav_btn:hover:not(.active) {
-  background-color: var(--m3-surface-container-highest);
+.nav_tab_btn:hover:not(.active) {
+  color: var(--m3-on-surface);
+  background-color: var(--m3-surface-container);
 }
 
-.nav_btn.active {
+.nav_tab_btn.active {
   background-color: var(--m3-primary);
   color: var(--m3-on-primary);
   box-shadow: var(--m3-elevation-1);
 }
 
-.theme_toggle_btn {
-  width: 44px;
-  height: 44px;
+/* Right Section */
+.right_section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme_btn {
+  width: 38px;
+  height: 38px;
   border-radius: var(--m3-shape-corner-full);
-  background-color: var(--m3-surface-container-high);
+  background-color: var(--m3-surface-container-low);
   color: var(--m3-on-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: 1px solid var(--m3-outline-variant);
   transition: all var(--m3-motion-duration) var(--m3-motion-standard);
-  font-size: 22px;
+  font-size: 18px;
 }
 
-.theme_toggle_btn:hover {
-  background-color: var(--m3-surface-container-highest);
-  transform: scale(1.08) rotate(12deg);
+.theme_btn:hover {
+  background-color: var(--m3-surface-container);
+  transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+  .telemetry_pills {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
   .top_bar {
-    padding: 10px 16px;
-    margin: 1rem auto 1.5rem auto;
+    flex-wrap: wrap;
+    padding: 10px 14px;
   }
 
-  .app_name {
+  .version_badge {
     display: none;
   }
 
-  .nav_btn {
-    padding: 8px 14px;
-    font-size: 0.85rem;
+  .nav_tab_btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }

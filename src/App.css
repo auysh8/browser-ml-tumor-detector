@@ -3,9 +3,9 @@
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 1.5rem 2.5rem 1.5rem;
+  padding: 0 1.5rem 2rem 1.5rem;
 }
 
 .main_content {
@@ -15,16 +15,22 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  animation: fadeIn 0.3s var(--m3-motion-standard);
+  animation: fadeIn 0.25s var(--m3-motion-standard);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .app_wrapper {
+    padding: 0 1rem 1.5rem 1.5rem;
   }
 }
