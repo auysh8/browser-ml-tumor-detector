@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from "./css/Results.module.css";
 import type { AnalysisResult } from "../App";
-import ThreeDScanViewer from "./ThreeDScanViewer";
 
 interface ResultsProps {
   results: AnalysisResult;
@@ -11,7 +10,6 @@ interface ResultsProps {
 const Results = ({ results, onReset }: ResultsProps) => {
   const [isInverted, setIsInverted] = useState(false);
   const [copiedStatus, setCopiedStatus] = useState(false);
-  const [viewMode, setViewMode] = useState<"2d" | "3d">("2d");
 
   const isInvalid = results.predictions === "Not an MRI" || results.isError;
   const isNoTumor = results.predictions === "No Tumor";
@@ -151,55 +149,28 @@ const Results = ({ results, onReset }: ResultsProps) => {
         </div>
       </div>
 
-      {/* Active Scan Topography & Interactive 3D Viewport */}
+      {/* Active Scan Display */}
       <div className={styles.full_topography_section}>
         <div className={styles.topography_header}>
           <h3 className={styles.section_title}>
-            <span>⊕ Active Scan Topography & Depth Reconstruction</span>
+            <span>⊕ Active Patient MRI Scan Slice</span>
           </h3>
-
-          <div className={styles.mode_toggles}>
-            <button
-              className={`${styles.mode_btn} ${viewMode === "2d" ? styles.mode_active : ""}`}
-              onClick={() => setViewMode("2d")}
-              type="button"
-            >
-              2D Flat Slice
-            </button>
-            <button
-              className={`${styles.mode_btn} ${viewMode === "3d" ? styles.mode_active : ""}`}
-              onClick={() => setViewMode("3d")}
-              type="button"
-            >
-              3D Interactive Mesh
-            </button>
-          </div>
         </div>
 
         <div className={styles.topography_box}>
           <div className={styles.scan_content_row}>
-            {viewMode === "2d" ? (
-              <div className={styles.scan_image_frame}>
-                <span className={styles.scan_badge}>S14</span>
-                {results.image ? (
-                  <img
-                    src={results.image}
-                    alt="Uploaded MRI Scan"
-                    style={{ filter: isInverted ? "invert(100%)" : "none" }}
-                  />
-                ) : (
-                  <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>No scan loaded</span>
-                )}
-              </div>
-            ) : (
-              <div style={{ flex: 1 }}>
-                {results.image ? (
-                  <ThreeDScanViewer imageSrc={results.image} isInverted={isInverted} />
-                ) : (
-                  <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>No scan loaded</span>
-                )}
-              </div>
-            )}
+            <div className={styles.scan_image_frame}>
+              <span className={styles.scan_badge}>S14</span>
+              {results.image ? (
+                <img
+                  src={results.image}
+                  alt="Uploaded MRI Scan"
+                  style={{ filter: isInverted ? "invert(100%)" : "none" }}
+                />
+              ) : (
+                <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>No scan loaded</span>
+              )}
+            </div>
 
             <div className={styles.scan_specs_list}>
               <div className={styles.spec_row}>
@@ -211,8 +182,8 @@ const Results = ({ results, onReset }: ResultsProps) => {
                 <span className={styles.spec_val}>224 × 224 RGB</span>
               </div>
               <div className={styles.spec_row}>
-                <span className={styles.spec_key}>Displacement Engine</span>
-                <span className={styles.spec_val}>WebGL Three.js Mesh</span>
+                <span className={styles.spec_key}>Inference Engine</span>
+                <span className={styles.spec_val}>TensorFlow.js WebGL</span>
               </div>
 
               <div className={styles.scan_btn_row}>
