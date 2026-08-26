@@ -1,6 +1,6 @@
-# Browser ML Tumor Detector
+# NeuroScan AI — Browser ML Tumor Detector
 
-A client-side machine learning web application that classifies brain tumors from MRI scans directly within the browser with zero server dependencies. Built with TensorFlow.js, React, and TypeScript for private, real-time medical imaging diagnostics.
+A client-side machine learning web workstation that classifies brain tumors from MRI scans directly within the browser with zero server dependencies. Built with TensorFlow.js, React, and TypeScript for private, real-time medical imaging diagnostics.
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -10,31 +10,29 @@ A client-side machine learning web application that classifies brain tumors from
 
 ---
 
-## Deployments & Live Demo
+## Live Application
 
-- **Live Application (GitHub Pages):** [https://auysh8.github.io/browser-ml-tumor-detector/](https://auysh8.github.io/browser-ml-tumor-detector/)
-- **Live Application (Vercel):** [https://browser-ml-tumor-detector.vercel.app](https://browser-ml-tumor-detector.vercel.app)
-- **GitHub Repository:** [https://github.com/auysh8/browser-ml-tumor-detector](https://github.com/auysh8/browser-ml-tumor-detector)
+- **Live Application (Vercel):** [https://brain-tumor-detector-pi.vercel.app/](https://brain-tumor-detector-pi.vercel.app/)
 
 ---
 
 ## Visual Preview
 
-| Upload Interface | Analysis & Diagnostics |
+| Landing Overview | Diagnostic Workstation |
 | :---: | :---: |
-| ![Upload Interface](image.png) | ![Results Interface](Results.png) |
+| ![Landing Overview](image.png) | ![Diagnostic Workstation](Results.png) |
 
 ---
 
 ## Project Overview
 
-Brain tumor detection traditionally requires specialized software, heavy computational infrastructure, or uploading sensitive medical imagery to external cloud servers. 
+Brain tumor detection traditionally requires specialized software or uploading sensitive medical imagery to external cloud servers.
 
-**Browser ML Tumor Detector** performs deep learning inference on-device using WebAssembly/WebGL backend acceleration:
+**NeuroScan AI** performs deep learning inference on-device using WebGL acceleration:
 - **100% Client-Side Processing:** MRI scans are processed purely in the browser; no patient health data leaves the local machine.
 - **Zero Server Infrastructure:** Completely static architecture with zero backend hosting cost.
 - **Real-Time Classification:** Instant inference across 4 tumor classes (Glioma, Meningioma, Pituitary, No Tumor) plus invalid image detection.
-- **Offline Capable:** Works without an active internet connection once loaded.
+- **Collapsible Sidebar & Dark Mode:** Clean clinical workstation layout with responsive navigation and theme switching.
 
 ---
 
@@ -51,22 +49,17 @@ browser-ml-tumor-detector/
 │       └── model.json           # Model topology and manifest
 ├── src/
 │   ├── components/
-│   │   ├── css/                 # CSS Modules for targeted styling
-│   │   │   ├── About.module.css
-│   │   │   ├── Loading.module.css
-│   │   │   ├── Results.module.css
-│   │   │   ├── TopBar.module.css
-│   │   │   └── UploadMri.module.css
-│   │   ├── About.tsx            # Project explanation and guidelines
-│   │   ├── Loading.tsx          # Inference loading state view
-│   │   ├── Results.tsx          # Model output visualization component
-│   │   ├── TopBar.tsx           # Application navigation header
-│   │   └── UploadMri.tsx        # File drag-and-drop & pre-processing handler
-│   ├── App.tsx                  # Root application state & lifecycle
-│   ├── main.tsx                 # Entry point
-│   └── index.css                # Global base styles
-├── eslint.config.js
-├── index.html
+│   │   ├── css/                 # Modular CSS styling
+│   │   ├── About.tsx            # Model specifications
+│   │   ├── LandingPage.tsx      # Overview and feature landing page
+│   │   ├── Loading.tsx          # Inference loading state
+│   │   ├── Results.tsx          # Classification & probability wave density
+│   │   ├── ScanArchive.tsx      # Session scan history log
+│   │   ├── TopBar.tsx           # Collapsible sidebar navigation
+│   │   └── UploadMri.tsx        # File drag-and-drop handler
+│   ├── App.tsx                  # Root application state & tab router
+│   ├── main.tsx                 # Application entry point
+│   └── index.css                # Global base styles & themes
 ├── package.json
 ├── tsconfig.json
 └── vite.config.ts
@@ -78,7 +71,7 @@ browser-ml-tumor-detector/
 
 ```mermaid
 flowchart TD
-    A[User / Medical Staff] -->|Uploads MRI Scan| B[Drag & Drop UI]
+    A[User / Medical Staff] -->|Import MRI Scan| B[Drag & Drop UI]
     B -->|Convert to HTMLImageElement| C[Image Preprocessing / Tensor Normalization 224x224]
     C -->|Feed Tensor| D[TensorFlow.js Graph Model]
     D -->|Softmax Probabilities| E[Class Classification & Confidence Evaluation]
@@ -92,10 +85,10 @@ flowchart TD
 | Category | Technologies |
 | :--- | :--- |
 | **Frontend Framework** | React 19, TypeScript, Vite |
-| **Machine Learning** | TensorFlow.js (GraphModel runtime, WebGL/WASM acceleration) |
-| **Styling** | Modular CSS (CSS Modules), Custom CSS, React Icons |
+| **Machine Learning** | TensorFlow.js (GraphModel runtime, WebGL acceleration) |
+| **Styling** | Modular CSS, Custom CSS Variables, React Icons |
 | **Tooling** | ESLint, TypeScript Compiler |
-| **Hosting & Deployment** | Vercel, GitHub Pages |
+| **Hosting & Deployment** | Vercel |
 
 ---
 
@@ -135,7 +128,6 @@ flowchart TD
 | `npm run dev` | Starts Vite local development server |
 | `npm run build` | Compiles TypeScript and builds production distribution into `dist` |
 | `npm run preview` | Previews production build locally |
-| `npm run deploy` | Builds and deploys the `dist` directory to GitHub Pages |
 
 ---
 
@@ -153,13 +145,3 @@ The model classifies uploaded brain MRI scans into the following categories:
 ## License
 
 This project is open-source and licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Author
-
-**Pankaj Bhandari**
-- GitHub: [https://github.com/auysh8](https://github.com/auysh8)
-- LinkedIn: [https://linkedin.com/in/pankajbhandari2004](https://linkedin.com/in/pankajbhandari2004)
-- Email: [pankajbhandari0714@gmail.com](mailto:pankajbhandari0714@gmail.com)
-
