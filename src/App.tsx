@@ -40,6 +40,7 @@ const App = () => {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     async function loadModel() {
@@ -64,6 +65,7 @@ const App = () => {
   }, [isDarkMode]);
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   const handleAnalyze = async (file: File) => {
     if (!model) {
@@ -153,13 +155,15 @@ const App = () => {
   };
 
   return (
-    <div className={`workstation_frame ${isDarkMode ? "dark" : ""}`}>
+    <div className={`workstation_frame ${isDarkMode ? "dark" : ""} ${isCollapsed ? "sidebar-collapsed" : ""}`}>
       {/* Left Sidebar */}
       <TopBar
         isDarkMode={isDarkMode}
         toggleDarkMode={toggleDarkMode}
         currentTab={currentTab}
         onTabChange={setCurrentTab}
+        isCollapsed={isCollapsed}
+        onToggleCollapse={toggleCollapse}
       />
 
       {/* Main Right Area */}
@@ -187,7 +191,6 @@ const App = () => {
                   : "Automated neural classification & topology metrics"}
               </p>
             </div>
-
           </div>
 
           {/* Active View */}

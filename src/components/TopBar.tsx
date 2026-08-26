@@ -1,12 +1,14 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { BsMoon } from "react-icons/bs";
-import { FiSun } from "react-icons/fi";
+import { FiSun, FiGrid, FiActivity, FiClock, FiLayers, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 interface TopBarProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   currentTab: "landing" | "detector" | "archive" | "about";
   onTabChange: (tab: "landing" | "detector" | "archive" | "about") => void;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 const TopBar = ({
@@ -14,6 +16,8 @@ const TopBar = ({
   toggleDarkMode,
   currentTab,
   onTabChange,
+  isCollapsed,
+  onToggleCollapse,
 }: TopBarProps) => {
   const navRef = useRef<HTMLDivElement>(null);
   const [pillStyle, setPillStyle] = useState<{ top: number; height: number; opacity: number }>({
@@ -34,20 +38,33 @@ const TopBar = ({
         opacity: 1,
       });
     }
-  }, [currentTab]);
+  }, [currentTab, isCollapsed]);
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
       <div className="sidebar_top">
-        {/* Logo */}
-        <div
-          className="brand_title"
-          onClick={() => onTabChange("detector")}
-          role="button"
-          tabIndex={0}
-        >
-          <span className="brand_icon">✱</span>
-          <span>NeuroScan</span>
+        {/* Logo & Collapse Toggle */}
+        <div className="sidebar_header">
+          <div
+            className="brand_title"
+            onClick={() => onTabChange("detector")}
+            role="button"
+            tabIndex={0}
+            title="NeuroScan AI"
+          >
+            <span className="brand_icon">✱</span>
+            {!isCollapsed && <span>NeuroScan</span>}
+          </div>
+
+          <button
+            className="collapse_toggle_btn"
+            onClick={onToggleCollapse}
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            type="button"
+            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
+          </button>
         </div>
 
         {/* Navigation Section */}
@@ -68,24 +85,30 @@ const TopBar = ({
               className={`nav_item ${currentTab === "landing" ? "active" : ""}`}
               onClick={() => onTabChange("landing")}
               type="button"
+              title="Overview & Landing"
             >
-              Overview & Landing
+              <FiGrid className="nav_icon" />
+              {!isCollapsed && <span className="nav_label">Overview</span>}
             </button>
             <button
               data-tab="detector"
               className={`nav_item ${currentTab === "detector" ? "active" : ""}`}
               onClick={() => onTabChange("detector")}
               type="button"
+              title="Neural Analysis Workstation"
             >
-              Neural Analysis Workstation
+              <FiActivity className="nav_icon" />
+              {!isCollapsed && <span className="nav_label">Workstation</span>}
             </button>
             <button
               data-tab="archive"
               className={`nav_item ${currentTab === "archive" ? "active" : ""}`}
               onClick={() => onTabChange("archive")}
               type="button"
+              title="Session Archive & History"
             >
-              Session Archive & History
+              <FiClock className="nav_icon" />
+              {!isCollapsed && <span className="nav_label">Scan History</span>}
             </button>
           </div>
 
@@ -97,8 +120,10 @@ const TopBar = ({
               className={`nav_item ${currentTab === "about" ? "active" : ""}`}
               onClick={() => onTabChange("about")}
               type="button"
+              title="Model Specifications"
             >
-              Model Specifications
+              <FiLayers className="nav_icon" />
+              {!isCollapsed && <span className="nav_label">Model Specs</span>}
             </button>
           </div>
         </div>
@@ -107,14 +132,16 @@ const TopBar = ({
       {/* Sidebar Profile Footer */}
       <div className="sidebar_footer">
         <div className="user_profile">
-          <div className="user_avatar">O</div>
-          <div className="user_info">
-            <span className="user_name">Radiology Operator</span>
-            <span className="user_sub">Workstation v1.0</span>
-          </div>
+          <div className="user_avatar" title="Radiology Operator">O</div>
+          {!isCollapsed && (
+            <div className="user_info">
+              <span className="user_name">Radiology Operator</span>
+              <span className="user_sub">Workstation v1.0</span>
+            </div>
+          )}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div className="footer_actions">
           <button
             className="theme_toggle_btn"
             onClick={toggleDarkMode}
@@ -123,7 +150,7 @@ const TopBar = ({
           >
             {isDarkMode ? <FiSun /> : <BsMoon />}
           </button>
-          <span className="tfjs_tag">TFJS</span>
+          {!isCollapsed && <span className="tfjs_tag">TFJS</span>}
         </div>
       </div>
     </aside>
