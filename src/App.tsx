@@ -28,6 +28,7 @@ const App = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const [appState, setAppState] = useState<"upload" | "loading" | "result">("upload");
   const [currentTab, setCurrentTab] = useState<"detector" | "about">("detector");
+  const [viewMode, setViewMode] = useState<"coronal" | "sagittal" | "axial">("axial");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -57,7 +58,7 @@ const App = () => {
 
   const handleAnalyze = async (file: File) => {
     if (!model) {
-      alert("Model is still loading. Please wait a moment.");
+      alert("Model is loading. Please wait a moment.");
       return;
     }
 
@@ -98,7 +99,7 @@ const App = () => {
         percentage: sumProbabilities > 0 ? parseFloat(((prob / sumProbabilities) * 100).toFixed(1)) : 0,
       }));
 
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((r) => setTimeout(r, 1000));
 
       setAnalysisResult({
         predictions: resultText,
@@ -132,30 +133,85 @@ const App = () => {
   };
 
   return (
-    <div className={`app_wrapper ${isDarkMode ? "dark" : ""}`}>
+    <div className={`workstation_frame ${isDarkMode ? "dark" : ""}`}>
+      {/* Left Sidebar */}
       <TopBar
         isDarkMode={isDarkMode}
         toggleDarkMode={toggleDarkMode}
         currentTab={currentTab}
-        onTabChange={(tab) => {
-          setCurrentTab(tab);
-        }}
+        onTabChange={setCurrentTab}
       />
 
-      <main className="main_content">
-        {currentTab === "about" && <About />}
+      {/* Main Right Area */}
+      <main className="main_panel bg-dotted-grid">
+        <div>
+          {/* Main Panel Header */}
+          <div className="panel_header">
+            <div className="header_titles">
+              <h1 className="main_title">
+                {currentTab === "about" ? "Model Specifications" : "Diagnostic inference"}
+              </h1>
+              <p className="main_subtitle">
+                {currentTab === "about"
+                  ? "Quantized GraphModel architecture & research team"
+                  : "Client-side automated brain MRI screening & topology metrics"}
+              </p>
+            </div>
 
-        {currentTab === "detector" && (
-          <>
-            {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
+            {/* Viewport Plane Toggles */}
+            <div className="view_toggles">
+              <button
+                className={`view_toggle_btn ${viewMode === "coronal" ? "active" : ""}`}
+                onClick={() => setViewMode("coronal")}
+                type="button"
+              >
+                Coronal
+              </button>
+              <button
+                className={`view_toggle_btn ${viewMode === "sagittal" ? "active" : ""}`}
+                onClick={() => setViewMode("sagittal")}
+                type="button"
+              >
+                Sagittal
+              </button>
+              <button
+                className={`view_toggle_btn ${viewMode === "axial" ? "active" : ""}`}
+                onClick={() => setViewMode("axial")}
+                type="button"
+              >
+                Axial T2
+              </button>
+            </div>
+          </div>
 
-            {appState === "loading" && <Loading />}
+          {/* Active View */}
+          {currentTab === "about" && <About />}
 
-            {appState === "result" && analysisResult && (
-              <Results results={analysisResult} onReset={handleReset} />
-            )}
-          </>
-        )}
+          {currentTab === "detector" && (
+            <>
+              {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
+
+              {appState === "loading" && <Loading />}
+
+              {appState === "result" && analysisResult && (
+                <Results results={analysisResult} onReset={handleReset} />
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Editorial Footer */}
+        <footer className="panel_footer">
+          <div>
+            <span>Supervised by </span>
+            <strong style={{ color: "var(--text-main)" }}>Dr. Shri Prakash Dwivedi</strong>
+          </div>
+          <div className="team_names">
+            <span>D. Maindolia</span>
+            <span>P. Bhandari</span>
+            <span>N. Sharma</span>
+          </div>
+        </footer>
       </main>
     </div>
   );
