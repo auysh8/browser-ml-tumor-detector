@@ -1,133 +1,81 @@
 import styles from "./css/About.module.css";
-import { FaBrain, FaUserGraduate, FaShieldAlt, FaFlask, FaMicrochip } from "react-icons/fa";
-import { MdVerifiedUser } from "react-icons/md";
 
 const About = () => {
   return (
-    <div className={styles.page_wrapper}>
-      <div className={styles.content}>
-        {/* Technical Specification Hero */}
-        <section className={styles.hero_card}>
-          <div className={styles.hero_tag}>
-            <FaBrain />
-            <span>Neural Diagnostic System Specs</span>
-          </div>
-          <h1 className={styles.hero_title}>NeuroScan AI Workstation</h1>
-          <p className={styles.hero_subtitle}>
-            Client-side deep learning web workstation engineered for on-device, private automated brain MRI screening. Powered by TensorFlow.js, it executes quantized convolutional neural graph models directly within browser WebGL GPU memory with zero server data retention.
-          </p>
-          <div className={styles.hero_badges}>
-            <span className={styles.badge}>
-              <FaMicrochip style={{ marginRight: "6px", color: "var(--m3-primary)" }} /> TensorFlow.js WebGL Runtime
-            </span>
-            <span className={styles.badge}>
-              <FaShieldAlt style={{ marginRight: "6px", color: "var(--m3-success)" }} /> On-Device HIPAA Compliance
-            </span>
-            <span className={styles.badge}>
-              <MdVerifiedUser style={{ marginRight: "6px", color: "var(--m3-primary)" }} /> 224x224 Bilinear Tensor Input
-            </span>
-          </div>
-        </section>
+    <div className={styles.about_wrapper}>
+      <div>
+        <span className={styles.mono_tag}>'SYSTEM MANIFEST'</span>
+        <h2 className={styles.about_title}>Model Specifications & Research Team</h2>
+        <p className={styles.about_sub}>
+          NeuroScan AI is a client-side deep learning workstation performing private automated brain tumor screening from MRI scans. Powered by TensorFlow.js, it executes quantized convolutional neural graph models directly inside WebGL GPU sandbox.
+        </p>
+      </div>
 
-        {/* Model Architecture Technical Matrix */}
-        <section className={styles.section}>
-          <h2 className={styles.section_title}>
-            <FaMicrochip style={{ color: "var(--m3-primary)" }} />
-            <span>AI Neural Network Specifications</span>
-          </h2>
-          <div className={styles.highlights_grid}>
-            <div className={styles.highlight_card}>
-              <h3 className={styles.highlight_title}>Topology & Quantization</h3>
-              <p className={styles.highlight_text}>
-                Quantized GraphModel manifest (`tfjs_model/model.json`) sharded into 4 binary weights files (`group1-shard1of4.bin` to `shard4of4.bin`).
-              </p>
+      <div className={styles.section_grid}>
+        {/* Model Architecture Specs */}
+        <div className={styles.section_card}>
+          <h3 className={styles.card_heading}>Tensor Network Specifications</h3>
+          <div className={styles.specs_table}>
+            <div className={styles.spec_row}>
+              <span className={styles.spec_key}>Model Topology</span>
+              <span className={styles.spec_val}>Quantized GraphModel</span>
             </div>
-            <div className={styles.highlight_card}>
-              <h3 className={styles.highlight_title}>Target Classification Classes</h3>
-              <p className={styles.highlight_text}>
-                5 Target Classes: 0: Glioma, 1: Meningioma, 2: Not an MRI (Invalid format check), 3: No Tumor (Normal), 4: Pituitary.
-              </p>
+            <div className={styles.spec_row}>
+              <span className={styles.spec_key}>Tensor Dimensions</span>
+              <span className={styles.spec_val}>Float32 [1, 224, 224, 3]</span>
             </div>
-            <div className={styles.highlight_card}>
-              <h3 className={styles.highlight_title}>Zero Cloud Footprint</h3>
-              <p className={styles.highlight_text}>
-                100% static architecture running offline. No patient imagery or health metrics are ever transmitted across networks.
-              </p>
+            <div className={styles.spec_row}>
+              <span className={styles.spec_key}>Target Classes</span>
+              <span className={styles.spec_val}>Glioma, Meningioma, Pituitary, Normal, Non-MRI</span>
             </div>
-          </div>
-        </section>
-
-        {/* Project Supervision */}
-        <section className={styles.section}>
-          <h2 className={styles.section_title}>
-            <FaUserGraduate style={{ color: "var(--m3-primary)" }} />
-            <span>Project Guidance & Direction</span>
-          </h2>
-          <div className={styles.cards_grid}>
-            <div className={styles.card}>
-              <div className={styles.avatar_wrapper}>
-                <div className={styles.avatar_circle}>
-                  <span>SD</span>
-                </div>
-              </div>
-              <div className={styles.card_body}>
-                <h3 className={styles.card_title}>Dr. Shri Prakash Dwivedi</h3>
-                <p className={styles.card_subtitle}>Project Guide & Research Supervisor</p>
-                <p className={styles.card_text}>
-                  Directing research methodology, clinical imaging evaluation, and neural network performance metrics.
-                </p>
-              </div>
+            <div className={styles.spec_row}>
+              <span className={styles.spec_key}>Execution Engine</span>
+              <span className={styles.spec_val}>TensorFlow.js WebGL GPU Sandbox</span>
+            </div>
+            <div className={styles.spec_row}>
+              <span className={styles.spec_key}>Data Privacy</span>
+              <span className={styles.spec_val}>100% Client-Side Local Enclave</span>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Team Members */}
-        <section className={styles.section}>
-          <h2 className={styles.section_title}>
-            <FaFlask style={{ color: "var(--m3-primary)" }} />
-            <span>Development & Engineering Team</span>
-          </h2>
-          <div className={styles.cards_grid}>
-            <div className={styles.card}>
-              <div className={styles.avatar_wrapper}>
-                <div className={styles.avatar_circle}>
-                  <span>DM</span>
-                </div>
-              </div>
-              <div className={styles.card_body}>
-                <h3 className={styles.card_title}>Dipesh Maindolia</h3>
-                <p className={styles.card_subtitle}>ID: 58875</p>
-                <p className={styles.card_text}>Machine Learning & Tensor Pipeline Integration</p>
+        {/* Project Supervision & Team */}
+        <div className={styles.section_card}>
+          <h3 className={styles.card_heading}>Research & Development Team</h3>
+          <div className={styles.team_list}>
+            <div className={styles.team_item}>
+              <div className={styles.member_avatar}>SD</div>
+              <div className={styles.member_details}>
+                <span className={styles.member_name}>Dr. Shri Prakash Dwivedi</span>
+                <span className={styles.member_role}>Project Guide & Research Supervisor</span>
               </div>
             </div>
 
-            <div className={styles.card}>
-              <div className={styles.avatar_wrapper}>
-                <div className={styles.avatar_circle}>
-                  <span>PB</span>
-                </div>
-              </div>
-              <div className={styles.card_body}>
-                <h3 className={styles.card_title}>Pankaj Bhandari</h3>
-                <p className={styles.card_subtitle}>ID: 58950</p>
-                <p className={styles.card_text}>Workstation Architecture & Diagnostic Interface Specialist</p>
+            <div className={styles.team_item}>
+              <div className={styles.member_avatar}>DM</div>
+              <div className={styles.member_details}>
+                <span className={styles.member_name}>Dipesh Maindolia</span>
+                <span className={styles.member_role}>ID: 58875 — ML Integration</span>
               </div>
             </div>
 
-            <div className={styles.card}>
-              <div className={styles.avatar_wrapper}>
-                <div className={styles.avatar_circle}>
-                  <span>NS</span>
-                </div>
+            <div className={styles.team_item}>
+              <div className={styles.member_avatar}>PB</div>
+              <div className={styles.member_details}>
+                <span className={styles.member_name}>Pankaj Bhandari</span>
+                <span className={styles.member_role}>ID: 58950 — Workstation Architecture</span>
               </div>
-              <div className={styles.card_body}>
-                <h3 className={styles.card_title}>Nikunj Sharma</h3>
-                <p className={styles.card_subtitle}>ID: 58948</p>
-                <p className={styles.card_text}>Data Preprocessing & Network Testing Specialist</p>
+            </div>
+
+            <div className={styles.team_item}>
+              <div className={styles.member_avatar}>NS</div>
+              <div className={styles.member_details}>
+                <span className={styles.member_name}>Nikunj Sharma</span>
+                <span className={styles.member_role}>ID: 58948 — Model Testing & Evaluation</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );

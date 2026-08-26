@@ -1,7 +1,6 @@
 import { useState, type ChangeEvent, type DragEvent } from "react";
 import styles from "./css/UploadMri.module.css";
-import { FaCloudUploadAlt, FaArrowRight, FaBrain, FaLock } from "react-icons/fa";
-import { BsStars } from "react-icons/bs";
+import { FiUploadCloud } from "react-icons/fi";
 
 interface UploadMriProps {
   onClick: (file: File) => void;
@@ -44,37 +43,21 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
   };
 
   return (
-    <div className={styles.workstation_card}>
-      {/* Header */}
-      <div className={styles.card_header}>
-        <div className={styles.header_title_group}>
-          <div className={styles.header_icon_circle}>
-            <FaBrain />
-          </div>
-          <div>
-            <h1 className={styles.title}>MRI Diagnostic Acquisition</h1>
-            <p className={styles.subtitle}>
-              Load brain MRI DICOM/Image scan into local TensorFlow.js neural tensor memory
-            </p>
-          </div>
-        </div>
-        <div className={styles.spec_badge}>
-          <span>TENSOR: 224x224x3</span>
-        </div>
+    <div className={styles.acquisition_card}>
+      <div>
+        <span className={styles.mono_tag}>'PRIMARY ACQUISITION'</span>
+        <h2 className={styles.acquisition_title}>Import Patient MRI Scan</h2>
+        <p className={styles.acquisition_sub}>
+          Select or drag an axial brain MRI image scan to run client-side neural classification inside WebGL GPU sandbox.
+        </p>
       </div>
 
-      {/* DICOM Dropzone Viewport */}
       <div
-        className={`${styles.dicom_viewport} ${isDragging ? styles.is_dragging : ""}`}
+        className={`${styles.dropzone_viewport} ${isDragging ? styles.is_dragging : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className={styles.corner_reticle_tl}></div>
-        <div className={styles.corner_reticle_tr}></div>
-        <div className={styles.corner_reticle_bl}></div>
-        <div className={styles.corner_reticle_br}></div>
-
         <input
           type="file"
           name="file_upload"
@@ -86,40 +69,31 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
         {preview ? (
           <div className={styles.preview_container}>
             <img
-              className={styles.preview_frame}
+              className={styles.preview_img}
               src={preview}
-              alt="Acquired Brain MRI Scan"
+              alt="Acquired Scan"
             />
-            <span className={styles.replace_chip}>Click or drag new scan to replace</span>
+            <span className={styles.change_text}>Click or drop file to replace scan</span>
           </div>
         ) : (
           <>
-            <div className={styles.upload_icon_box}>
-              <FaCloudUploadAlt />
-            </div>
-            <span className={styles.prompt_main}>Import Patient MRI Scan</span>
-            <span className={styles.prompt_sub}>Drag and drop DICOM / PNG / JPG file or browse local drive</span>
+            <FiUploadCloud className={styles.drop_icon} />
+            <span className={styles.drop_title}>Drop brain MRI scan file here</span>
+            <span className={styles.drop_subtitle}>Accepts PNG, JPG, JPEG (224x224 Bilinear Resampled)</span>
           </>
         )}
       </div>
 
-      {/* Action Bar */}
       <div className={styles.action_bar}>
+        <span className={styles.privacy_note}>🔒 100% Client-Side Enclave — No Cloud Transfers</span>
         <button
-          className={styles.analyze_btn}
+          className={styles.submit_btn}
           onClick={() => file && onClick(file)}
           disabled={!file}
           type="button"
         >
-          <BsStars size={18} />
-          <span>Execute Neural Classification</span>
-          <FaArrowRight size={15} />
+          Execute Neural Analysis →
         </button>
-
-        <div className={styles.compliance_footer}>
-          <FaLock style={{ color: "var(--m3-success)" }} />
-          <span>Private Local Inference — Zero Cloud Data Retention</span>
-        </div>
       </div>
     </div>
   );

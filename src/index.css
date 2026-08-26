@@ -1,103 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Material 3 Expressive Clinical Workstation Theme (Light) */
-  --m3-primary: #0284c7;
-  --m3-on-primary: #ffffff;
-  --m3-primary-container: #e0f2fe;
-  --m3-on-primary-container: #0369a1;
+  /* Editorial Warm Beige Light Theme */
+  --bg-app: #e8e5dd;
+  --bg-card: #f6f4ee;
+  --bg-card-sub: #edeae2;
+  --bg-input: #e3dfd6;
+  --bg-pill-active: #222220;
+  --text-pill-active: #ffffff;
 
-  --m3-secondary: #475569;
-  --m3-on-secondary: #ffffff;
-  --m3-secondary-container: #f1f5f9;
-  --m3-on-secondary-container: #1e293b;
+  --text-main: #1e1e1c;
+  --text-muted: #787670;
+  --text-mono: #504e48;
+  --border-subtle: #dad6cc;
 
-  --m3-error: #dc2626;
-  --m3-error-container: #fee2e2;
-  --m3-on-error-container: #991b1b;
-
-  --m3-success: #16a34a;
-  --m3-success-container: #dcfce7;
-  --m3-on-success-container: #166534;
-
-  --m3-warning: #d97706;
-  --m3-warning-container: #fef3c7;
-  --m3-on-warning-container: #92400e;
-
-  --m3-surface: #f8fafc;
-  --m3-on-surface: #0f172a;
-
-  --m3-surface-container-lowest: #ffffff;
-  --m3-surface-container-low: #f1f5f9;
-  --m3-surface-container: #e2e8f0;
-  --m3-surface-container-main: #f8fafc;
-  --m3-surface-container-high: #cbd5e1;
-  --m3-surface-container-highest: #94a3b8;
-
-  --m3-outline: #64748b;
-  --m3-outline-variant: #e2e8f0;
-
-  /* Typography & Font Families */
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Shape Scale */
-  --m3-shape-corner-xs: 4px;
-  --m3-shape-corner-s: 8px;
-  --m3-shape-corner-m: 12px;
-  --m3-shape-corner-l: 16px;
-  --m3-shape-corner-xl: 24px;
-  --m3-shape-corner-full: 9999px;
+  --color-glioma: #6d3a58;
+  --color-meningioma: #b86a82;
+  --color-pituitary: #c68a5c;
+  --color-notumor: #6e8c75;
 
-  /* Elevation & Shadows */
-  --m3-elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
-  --m3-elevation-2: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --m3-elevation-3: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-
-  --m3-motion-standard: cubic-bezier(0.2, 0, 0, 1);
-  --m3-motion-duration: 0.25s;
+  --shadow-main: 0 20px 50px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-/* Dark Mode Medical Workstation (Obsidian Slate + Cyan Accents) */
+/* Dark Mode Editorial Obsidian Theme */
 html.dark, body.dark, .dark {
-  --m3-primary: #38bdf8;
-  --m3-on-primary: #0c4a6e;
-  --m3-primary-container: #075985;
-  --m3-on-primary-container: #e0f2fe;
+  --bg-app: #0f1012;
+  --bg-card: #181a1e;
+  --bg-card-sub: #21242a;
+  --bg-input: #282c33;
+  --bg-pill-active: #383d47;
+  --text-pill-active: #ffffff;
 
-  --m3-secondary: #94a3b8;
-  --m3-on-secondary: #0f172a;
-  --m3-secondary-container: #1e293b;
-  --m3-on-secondary-container: #e2e8f0;
+  --text-main: #f0f2f5;
+  --text-muted: #9aa1ad;
+  --text-mono: #828a96;
+  --border-subtle: #2b2f38;
 
-  --m3-error: #f87171;
-  --m3-error-container: #7f1d1d;
-  --m3-on-error-container: #fecaca;
+  --color-glioma: #a65886;
+  --color-meningioma: #d9829a;
+  --color-pituitary: #e09f72;
+  --color-notumor: #89a891;
 
-  --m3-success: #4ade80;
-  --m3-success-container: #14532d;
-  --m3-on-success-container: #bbf7d0;
-
-  --m3-warning: #fbbf24;
-  --m3-warning-container: #78350f;
-  --m3-on-warning-container: #fde68a;
-
-  --m3-surface: #0b0f17;
-  --m3-on-surface: #f1f5f9;
-
-  --m3-surface-container-lowest: #0d131d;
-  --m3-surface-container-low: #111827;
-  --m3-surface-container: #1e293b;
-  --m3-surface-container-main: #070a0f;
-  --m3-surface-container-high: #334155;
-  --m3-surface-container-highest: #475569;
-
-  --m3-outline: #64748b;
-  --m3-outline-variant: #1e293b;
-
-  --m3-elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-  --m3-elevation-2: 0 4px 12px 0 rgba(0, 0, 0, 0.5);
-  --m3-elevation-3: 0 10px 25px 0 rgba(0, 0, 0, 0.7);
+  --shadow-main: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -110,19 +60,20 @@ html, body {
   font-family: var(--font-sans);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: var(--m3-surface-container-main);
-  color: var(--m3-on-surface);
+  background-color: var(--bg-app);
+  color: var(--text-main);
   min-height: 100vh;
   width: 100%;
-  transition: background-color var(--m3-motion-duration) var(--m3-motion-standard),
-              color var(--m3-motion-duration) var(--m3-motion-standard);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
   min-height: 100vh;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
 button, input, select, textarea {
@@ -141,6 +92,16 @@ a {
   color: inherit;
 }
 
+/* Utility for Dotted Grid Pattern */
+.bg-dotted-grid {
+  background-image: radial-gradient(var(--border-subtle) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
 .mono {
   font-family: var(--font-mono);
+}
+
+.serif {
+  font-family: var(--font-serif);
 }
