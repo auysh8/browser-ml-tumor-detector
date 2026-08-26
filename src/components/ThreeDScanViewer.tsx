@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import { useEffect, useRef, useState } from "react";
 
 interface ThreeDScanViewerProps {
   imageSrc: string;
@@ -7,110 +6,165 @@ interface ThreeDScanViewerProps {
 }
 
 const ThreeDScanViewer = ({ imageSrc, isInverted = false }: ThreeDScanViewerProps) => {
-  const mountRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const width = container.clientWidth || 500;
-    const height = 320;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    // 1. Scene, Camera, Renderer
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000); // Black background for medical contrast
-
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, -120, 180);
-    camera.lookAt(0, 0, 0);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.innerHTML = "";
-    container.appendChild(renderer.domElement);
-
-    // 2. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(50, 100, 150);
-    scene.add(dirLight);
-
-    const pointLight = new THREE.PointLight(0x38bdf8, 1.5, 300);
-    pointLight.position.set(0, 0, 80);
-    scene.add(pointLight);
-
-    // 3. Texture Loader & Mesh Creation
-    let mesh: THREE.Mesh | null = null;
     let animationFrameId: number;
+    let angle = 0.4;
 
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imageSrc, (texture) => {
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = imageSrc;
 
-      // Create high density plane geometry for 3D depth displacement
-      const geometry = new THREE.PlaneGeometry(160, 160, 128, 128);
+    img.onload = () => {
+      setLoading(false);
+      const GRID_SIZE = 44;
+      const offscreen = document.createElement("canvas");
+      offscreen.width = GRID_SIZE;
+      offscreen.height = GRID_SIZE;
+      const offCtx = offscreen.getContext("2d");
 
-      const material = new THREE.MeshStandardMaterial({
-        map: texture,
-        displacementMap: texture,
-        displacementScale: isInverted ? -28 : 28,
-        roughness: 0.4,
-        metalness: 0.1,
-        wireframe: false,
-        side: THREE.DoubleSide,
-      });
+      if (!offCtx) return;
 
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 4;
-      scene.add(mesh);
+      offCtx.drawImage(img, 0, 0, GRID_SIZE, GRID_SIZE);
+      const imgData = offCtx.getImageData(0, 0, GRID_SIZE, GRID_SIZE).data;
 
-      // Render Loop & Auto Rotation
-      const animate = () => {
-        animationFrameId = requestAnimationFrame(animate);
-        if (mesh) {
-          mesh.rotation.z += 0.005;
+      // Build height map matrix
+      const heights: number[][] = [];
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const row: number[] = [];
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const idx = (y * GRID_SIZE + x) * 4;
+          let b = (imgData[idx] + imgData[idx + 1] + imgData[idx + 2]) / 3;
+          if (isInverted) b = 255 - b;
+          row.push(b);
         }
-        renderer.render(scene, camera);
+        heights.push(row);
+      }
+
+      const render = () => {
+        angle += 0.007;
+
+        const rect = canvas.getBoundingClientRect();
+        const width = (canvas.width = rect.width || 600);
+        const height = (canvas.height = 320);
+
+        ctx.fillStyle = "#05070a";
+        ctx.fillRect(0, 0, width, height);
+
+        const centerX = width / 2;
+        const centerY = height / 2 + 15;
+
+        const scale = Math.min(width, height) / (GRID_SIZE * 1.7);
+        const tilt = 0.52;
+
+        const cosA = Math.cos(angle);
+        const sinA = Math.sin(angle);
+
+        const projected: { px: number; py: number; z: number; normZ: number }[][] = [];
+        const half = GRID_SIZE / 2;
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          const row = [];
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const val = heights[y][x];
+            const normZ = val / 255;
+            const elevation = normZ * 38;
+
+            const gx = x - half;
+            const gy = y - half;
+
+            const rx = gx * cosA - gy * sinA;
+            const ry = gx * sinA + gy * cosA;
+
+            const px = centerX + rx * scale * 1.25;
+            const py = centerY + (ry * tilt - elevation) * scale * 0.85;
+
+            row.push({ px, py, z: elevation, normZ });
+          }
+          projected.push(row);
+        }
+
+        ctx.lineWidth = 1;
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const curr = projected[y][x];
+
+            if (curr.normZ > 0.6) {
+              ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + curr.normZ * 0.45})`;
+            } else if (curr.normZ > 0.3) {
+              ctx.strokeStyle = `rgba(56, 189, 248, ${0.3 + curr.normZ * 0.4})`;
+            } else {
+              ctx.strokeStyle = `rgba(51, 65, 85, ${0.15 + curr.normZ * 0.2})`;
+            }
+
+            if (x < GRID_SIZE - 1) {
+              const nextX = projected[y][x + 1];
+              ctx.beginPath();
+              ctx.moveTo(curr.px, curr.py);
+              ctx.lineTo(nextX.px, nextX.py);
+              ctx.stroke();
+            }
+
+            if (y < GRID_SIZE - 1) {
+              const nextY = projected[y + 1][x];
+              ctx.beginPath();
+              ctx.moveTo(curr.px, curr.py);
+              ctx.lineTo(nextY.px, nextY.py);
+              ctx.stroke();
+            }
+          }
+        }
+
+        animationFrameId = requestAnimationFrame(render);
       };
 
-      animate();
-    });
-
-    // Handle Window Resize
-    const handleResize = () => {
-      if (!container) return;
-      const w = container.clientWidth;
-      camera.aspect = w / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, height);
+      render();
     };
 
-    window.addEventListener("resize", handleResize);
-
     return () => {
-      window.removeEventListener("resize", handleResize);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      renderer.dispose();
-      if (container) container.innerHTML = "";
     };
   }, [imageSrc, isInverted]);
 
   return (
     <div
-      ref={mountRef}
       style={{
         width: "100%",
         height: "320px",
         borderRadius: "8px",
         overflow: "hidden",
         border: "1px solid var(--border-subtle)",
-        background: "#050505",
+        background: "#05070a",
+        position: "relative",
       }}
-    />
+    >
+      {loading && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--text-tertiary)",
+            fontSize: "12px",
+            fontFamily: "monospace",
+          }}
+        >
+          GENERATING 3D TOPOGRAPHY MESH...
+        </div>
+      )}
+      <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
+    </div>
   );
 };
 
