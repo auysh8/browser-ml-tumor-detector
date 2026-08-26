@@ -146,53 +146,6 @@
   border-radius: var(--m3-shape-corner-full);
 }
 
-/* --- Sample MRI Presets Section --- */
-.presets_section {
-  width: 100%;
-  margin-bottom: 2rem;
-  text-align: left;
-}
-
-.presets_title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--m3-outline);
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.preset_chips_row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.preset_chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--m3-shape-corner-full);
-  background-color: var(--m3-surface-container-high);
-  color: var(--m3-on-surface);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid var(--m3-outline-variant);
-  transition: all var(--m3-motion-duration) var(--m3-motion-standard);
-}
-
-.preset_chip:hover {
-  background-color: var(--m3-secondary-container);
-  color: var(--m3-primary);
-  border-color: var(--m3-primary);
-  transform: translateY(-1px);
-}
-
 /* --- Actions & Buttons --- */
 .submit_button {
   display: inline-flex;
@@ -246,14 +199,5 @@
 
   .heading {
     font-size: 1.5rem;
-  }
-
-  .preset_chips_row {
-    flex-direction: column;
-  }
-
-  .preset_chip {
-    width: 100%;
-    justify-content: center;
   }
 }
