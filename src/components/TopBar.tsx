@@ -4,8 +4,8 @@ import { FiSun } from "react-icons/fi";
 interface TopBarProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
-  currentTab: "detector" | "about";
-  onTabChange: (tab: "detector" | "about") => void;
+  currentTab: "landing" | "detector" | "archive" | "about";
+  onTabChange: (tab: "landing" | "detector" | "archive" | "about") => void;
 }
 
 const TopBar = ({
@@ -32,23 +32,25 @@ const TopBar = ({
         <div className="sidebar_nav">
           <div className="nav_group">
             <button
+              className={`nav_item ${currentTab === "landing" ? "active" : ""}`}
+              onClick={() => onTabChange("landing")}
+              type="button"
+            >
+              Overview & Landing
+            </button>
+            <button
               className={`nav_item ${currentTab === "detector" ? "active" : ""}`}
               onClick={() => onTabChange("detector")}
               type="button"
             >
-              Neural Analysis
+              Neural Analysis Workstation
             </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              Overview
-            </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              Patient Series
-            </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              Softmax Weights
-            </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              DICOM Archive
+            <button
+              className={`nav_item ${currentTab === "archive" ? "active" : ""}`}
+              onClick={() => onTabChange("archive")}
+              type="button"
+            >
+              Session Archive & History
             </button>
           </div>
 
@@ -61,13 +63,7 @@ const TopBar = ({
               onClick={() => onTabChange("about")}
               type="button"
             >
-              Model Specs & Team
-            </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              Model Protocols
-            </button>
-            <button className="nav_item" style={{ opacity: 0.6 }} type="button" disabled>
-              Zero-Retention Policy
+              Model Specifications
             </button>
           </div>
         </div>

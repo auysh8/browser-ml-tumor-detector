@@ -5,7 +5,16 @@ import Results from "./components/Results";
 import Loading from "./components/Loading";
 import TopBar from "./components/TopBar";
 import About from "./components/About";
+import LandingPage from "./components/LandingPage";
+import ScanArchive from "./components/ScanArchive";
 import "./App.css";
+
+export interface ArchiveEntry {
+  id: string;
+  timestamp: string;
+  filename: string;
+  result: AnalysisResult;
+}
 
 export interface AnalysisResult {
   predictions: string;
@@ -27,9 +36,10 @@ const CLASSES: { [key: number]: string } = {
 const App = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const [appState, setAppState] = useState<"upload" | "loading" | "result">("upload");
-  const [currentTab, setCurrentTab] = useState<"detector" | "about">("detector");
+  const [currentTab, setCurrentTab] = useState<"landing" | "detector" | "archive" | "about">("landing");
   const [viewMode, setViewMode] = useState<"coronal" | "sagittal" | "axial">("axial");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -101,7 +111,7 @@ const App = () => {
 
       await new Promise((r) => setTimeout(r, 1000));
 
-      setAnalysisResult({
+      const resultObj: AnalysisResult = {
         predictions: resultText,
         confidence: confidencePercent,
         urgency:
@@ -111,7 +121,18 @@ const App = () => {
         image: objectUrl,
         isError: false,
         classProbabilities,
-      });
+      };
+
+      setAnalysisResult(resultObj);
+
+      const newEntry: ArchiveEntry = {
+        id: Date.now().toString(),
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        filename: file.name,
+        result: resultObj,
+      };
+
+      setScanHistory((prev) => [newEntry, ...prev]);
 
       setAppState("result");
     } catch (error) {
@@ -149,43 +170,78 @@ const App = () => {
           <div className="panel_header">
             <div className="header_titles">
               <h1 className="main_title">
-                {currentTab === "about" ? "Model Specifications" : "Diagnostic inference"}
+                {currentTab === "landing"
+                  ? "NeuroScan AI Enclave"
+                  : currentTab === "about"
+                  ? "Model Specifications"
+                  : currentTab === "archive"
+                  ? "Session Scan History"
+                  : "Diagnostic Workstation"}
               </h1>
               <p className="main_subtitle">
-                {currentTab === "about"
-                  ? "Quantized GraphModel architecture & research team"
-                  : "Client-side automated brain MRI screening & topology metrics"}
+                {currentTab === "landing"
+                  ? "Client-side automated brain MRI screening platform"
+                  : currentTab === "about"
+                  ? "Quantized GraphModel architecture & tensor engine"
+                  : currentTab === "archive"
+                  ? "Evaluated scan logs in current browser session"
+                  : "Automated neural classification & topology metrics"}
               </p>
             </div>
 
             {/* Viewport Plane Toggles */}
-            <div className="view_toggles">
-              <button
-                className={`view_toggle_btn ${viewMode === "coronal" ? "active" : ""}`}
-                onClick={() => setViewMode("coronal")}
-                type="button"
-              >
-                Coronal
-              </button>
-              <button
-                className={`view_toggle_btn ${viewMode === "sagittal" ? "active" : ""}`}
-                onClick={() => setViewMode("sagittal")}
-                type="button"
-              >
-                Sagittal
-              </button>
-              <button
-                className={`view_toggle_btn ${viewMode === "axial" ? "active" : ""}`}
-                onClick={() => setViewMode("axial")}
-                type="button"
-              >
-                Axial T2
-              </button>
-            </div>
+            {currentTab === "detector" && (
+              <div className="view_toggles">
+                <button
+                  className={`view_toggle_btn ${viewMode === "coronal" ? "active" : ""}`}
+                  onClick={() => setViewMode("coronal")}
+                  type="button"
+                >
+                  Coronal
+                </button>
+                <button
+                  className={`view_toggle_btn ${viewMode === "sagittal" ? "active" : ""}`}
+                  onClick={() => setViewMode("sagittal")}
+                  type="button"
+                >
+                  Sagittal
+                </button>
+                <button
+                  className={`view_toggle_btn ${viewMode === "axial" ? "active" : ""}`}
+                  onClick={() => setViewMode("axial")}
+                  type="button"
+                >
+                  Axial T2
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Active View */}
+          {currentTab === "landing" && (
+            <LandingPage
+              onLaunchDashboard={() => setCurrentTab("detector")}
+              onViewModelSpecs={() => setCurrentTab("about")}
+            />
+          )}
+
           {currentTab === "about" && <About />}
+
+          {currentTab === "archive" && (
+            <ScanArchive
+              history={scanHistory}
+              onSelectResult={(res) => {
+                setAnalysisResult(res);
+                setAppState("result");
+                setCurrentTab("detector");
+              }}
+              onClearHistory={() => setScanHistory([])}
+              onNewScan={() => {
+                handleReset();
+                setCurrentTab("detector");
+              }}
+            />
+          )}
 
           {currentTab === "detector" && (
             <>
