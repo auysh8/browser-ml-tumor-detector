@@ -78,72 +78,36 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
         {/* Right Softmax Wave Density Curve Chart */}
         <div className={styles.wave_chart_container}>
-          <div className={styles.wave_chart_box}>
-            <svg className={styles.wave_svg} viewBox="0 0 500 130">
-              {/* Baseline */}
-              <line x1="10" y1="125" x2="490" y2="125" stroke="var(--border-subtle)" strokeWidth="1.5" />
+          {/* 4-Column Synchronized Wave & Label Columns */}
+          <div className={styles.chart_columns_grid}>
+            {classes.map((cls) => {
+              const heightPercentage = Math.max(0, Math.min(100, cls.prob));
+              const peakY = 120 - (heightPercentage / 100) * 100;
 
-              {/*
-                Grid Column Centers for ViewBox Width 500 (4 equal 125px columns):
-                - Col 1 (Glioma): Center x = 62.5 (Span: 10 to 115)
-                - Col 2 (Meningioma): Center x = 187.5 (Span: 135 to 240)
-                - Col 3 (Pituitary): Center x = 312.5 (Span: 260 to 365)
-                - Col 4 (Normal): Center x = 437.5 (Span: 385 to 490)
-              */}
+              return (
+                <div key={cls.name} className={styles.chart_col}>
+                  <div className={styles.svg_wrapper}>
+                    <svg className={styles.wave_svg} viewBox="0 0 100 120">
+                      <line x1="0" y1="120" x2="100" y2="120" stroke="var(--border-subtle)" strokeWidth="1.5" />
+                      <path
+                        className={styles.animated_wave}
+                        d={`M 5 120 C 25 120, 32 ${peakY}, 50 ${peakY} C 68 ${peakY}, 75 120, 95 120 Z`}
+                        fill={cls.color}
+                        opacity="0.85"
+                      />
+                    </svg>
+                  </div>
 
-              {/* Glioma Curve (Plum) */}
-              <path
-                className={styles.animated_wave}
-                d={`M 10 125 C 35 125, 42 ${125 - (gliomaProb / 100) * 105}, 62.5 ${
-                  125 - (gliomaProb / 100) * 105
-                } C 83 ${125 - (gliomaProb / 100) * 105}, 90 125, 115 125 Z`}
-                fill="var(--color-glioma)"
-                opacity="0.8"
-              />
-
-              {/* Meningioma Curve (Rose) */}
-              <path
-                className={styles.animated_wave}
-                d={`M 135 125 C 160 125, 167 ${125 - (meningiomaProb / 100) * 105}, 187.5 ${
-                  125 - (meningiomaProb / 100) * 105
-                } C 208 ${125 - (meningiomaProb / 100) * 105}, 215 125, 240 125 Z`}
-                fill="var(--color-meningioma)"
-                opacity="0.85"
-              />
-
-              {/* Pituitary Curve (Terracotta) */}
-              <path
-                className={styles.animated_wave}
-                d={`M 260 125 C 285 125, 292 ${125 - (pituitaryProb / 100) * 105}, 312.5 ${
-                  125 - (pituitaryProb / 100) * 105
-                } C 333 ${125 - (pituitaryProb / 100) * 105}, 340 125, 365 125 Z`}
-                fill="var(--color-pituitary)"
-                opacity="0.8"
-              />
-
-              {/* No Tumor / Normal Curve (Sage) */}
-              <path
-                className={styles.animated_wave}
-                d={`M 385 125 C 410 125, 417 ${125 - (noTumorProb / 100) * 105}, 437.5 ${
-                  125 - (noTumorProb / 100) * 105
-                } C 458 ${125 - (noTumorProb / 100) * 105}, 465 125, 490 125 Z`}
-                fill="var(--color-notumor)"
-                opacity="0.85"
-              />
-            </svg>
-          </div>
-
-          {/* Clean HTML Legend Overlay beneath curves - Perfectly Aligned */}
-          <div className={styles.chart_legend_row}>
-            {classes.map((cls) => (
-              <div key={cls.name} className={styles.legend_item}>
-                <div className={styles.legend_header}>
-                  <span className={styles.legend_dot} style={{ backgroundColor: cls.color }} />
-                  <span className={styles.legend_label}>{cls.name}</span>
+                  <div className={styles.legend_item}>
+                    <div className={styles.legend_header}>
+                      <span className={styles.legend_dot} style={{ backgroundColor: cls.color }} />
+                      <span className={styles.legend_label}>{cls.name}</span>
+                    </div>
+                    <span className={styles.legend_value}>{cls.prob}%</span>
+                  </div>
                 </div>
-                <span className={styles.legend_value}>{cls.prob}%</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
