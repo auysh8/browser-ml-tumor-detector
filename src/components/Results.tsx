@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./css/Results.module.css";
-import { FiArrowRight } from "react-icons/fi";
 import type { AnalysisResult } from "../App";
+import ThreeDScanViewer from "./ThreeDScanViewer";
 
 interface ResultsProps {
   results: AnalysisResult;
@@ -11,6 +11,7 @@ interface ResultsProps {
 const Results = ({ results, onReset }: ResultsProps) => {
   const [isInverted, setIsInverted] = useState(false);
   const [copiedStatus, setCopiedStatus] = useState(false);
+  const [viewMode, setViewMode] = useState<"2d" | "3d">("2d");
 
   const isInvalid = results.predictions === "Not an MRI" || results.isError;
   const isNoTumor = results.predictions === "No Tumor";
@@ -150,16 +151,34 @@ const Results = ({ results, onReset }: ResultsProps) => {
         </div>
       </div>
 
-      {/* Lower Section Grid */}
-      <div className={styles.bottom_grid}>
-        {/* Left Column: Active Scan Topography */}
-        <div>
+      {/* Active Scan Topography & Interactive 3D Viewport */}
+      <div className={styles.full_topography_section}>
+        <div className={styles.topography_header}>
           <h3 className={styles.section_title}>
-            <span>⊕ Active scan topography</span>
+            <span>⊕ Active Scan Topography & Depth Reconstruction</span>
           </h3>
 
-          <div className={styles.topography_box}>
-            <div className={styles.scan_content_row}>
+          <div className={styles.mode_toggles}>
+            <button
+              className={`${styles.mode_btn} ${viewMode === "2d" ? styles.mode_active : ""}`}
+              onClick={() => setViewMode("2d")}
+              type="button"
+            >
+              2D Flat Slice
+            </button>
+            <button
+              className={`${styles.mode_btn} ${viewMode === "3d" ? styles.mode_active : ""}`}
+              onClick={() => setViewMode("3d")}
+              type="button"
+            >
+              3D Interactive Mesh
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.topography_box}>
+          <div className={styles.scan_content_row}>
+            {viewMode === "2d" ? (
               <div className={styles.scan_image_frame}>
                 <span className={styles.scan_badge}>S14</span>
                 {results.image ? (
@@ -172,87 +191,62 @@ const Results = ({ results, onReset }: ResultsProps) => {
                   <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>No scan loaded</span>
                 )}
               </div>
-
-              <div className={styles.scan_specs_list}>
-                <div className={styles.spec_row}>
-                  <span className={styles.spec_key}>Patient Record</span>
-                  <span className={styles.spec_val}>ANON-SCAN-01</span>
-                </div>
-                <div className={styles.spec_row}>
-                  <span className={styles.spec_key}>Resolution</span>
-                  <span className={styles.spec_val}>224 × 224 RGB</span>
-                </div>
-                <div className={styles.spec_row}>
-                  <span className={styles.spec_key}>Layer Dimension</span>
-                  <span className={styles.spec_val}>Float32 [1, 224, 224, 3]</span>
-                </div>
-
-                <div className={styles.scan_btn_row}>
-                  <button className={styles.mini_btn} onClick={onReset} type="button">
-                    Import scan
-                  </button>
-                  <button
-                    className={styles.mini_btn_outline}
-                    onClick={() => setIsInverted(!isInverted)}
-                    type="button"
-                  >
-                    {isInverted ? "Normal" : "Invert"}
-                  </button>
-                </div>
+            ) : (
+              <div style={{ flex: 1 }}>
+                {results.image ? (
+                  <ThreeDScanViewer imageSrc={results.image} isInverted={isInverted} />
+                ) : (
+                  <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>No scan loaded</span>
+                )}
               </div>
-            </div>
+            )}
 
-            <div className={styles.topography_footer}>
-              <span>TFJS GRAPHMODEL V1</span>
-              <span>100% CLIENT-SIDE ENCLAVE</span>
+            <div className={styles.scan_specs_list}>
+              <div className={styles.spec_row}>
+                <span className={styles.spec_key}>Patient Record</span>
+                <span className={styles.spec_val}>ANON-SCAN-01</span>
+              </div>
+              <div className={styles.spec_row}>
+                <span className={styles.spec_key}>Resolution</span>
+                <span className={styles.spec_val}>224 × 224 RGB</span>
+              </div>
+              <div className={styles.spec_row}>
+                <span className={styles.spec_key}>Displacement Engine</span>
+                <span className={styles.spec_val}>WebGL Three.js Mesh</span>
+              </div>
+
+              <div className={styles.scan_btn_row}>
+                <button className={styles.mini_btn} onClick={onReset} type="button">
+                  Import scan
+                </button>
+                <button
+                  className={styles.mini_btn_outline}
+                  onClick={() => setIsInverted(!isInverted)}
+                  type="button"
+                >
+                  {isInverted ? "Normal" : "Invert"}
+                </button>
+                <button
+                  className={styles.mini_btn_outline}
+                  onClick={handleCopyTelemetry}
+                  type="button"
+                >
+                  {copiedStatus ? "Copied!" : "Copy JSON"}
+                </button>
+                <button
+                  className={styles.mini_btn_outline}
+                  onClick={handlePrintReport}
+                  type="button"
+                >
+                  Print Report
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Column: Next Clinical Actions */}
-        <div>
-          <h3 className={styles.section_title}>
-            <span>☵ Next clinical actions</span>
-          </h3>
-
-          <div className={styles.actions_column}>
-            <div className={styles.action_card} onClick={onReset}>
-              <span className={styles.action_num}>01</span>
-              <div className={styles.action_body}>
-                <span className={styles.action_title}>Conduct secondary axial confirmation</span>
-                <span className={styles.action_desc}>
-                  Cross-verify with contrast-enhanced T1 post-gadolinium sequence or acquire new scan.
-                </span>
-              </div>
-              <FiArrowRight className={styles.action_arrow} />
-            </div>
-
-            <div
-              className={styles.action_card}
-              onClick={copiedStatus ? handlePrintReport : handleCopyTelemetry}
-            >
-              <span className={styles.action_num}>02</span>
-              <div className={styles.action_body}>
-                <span className={styles.action_title}>
-                  {copiedStatus ? "Telemetry Copied to Clipboard!" : "Export diagnostic PDF report & Telemetry"}
-                </span>
-                <span className={styles.action_desc}>
-                  Render signed report containing softmax telemetry and model weights.
-                </span>
-              </div>
-              <FiArrowRight className={styles.action_arrow} />
-            </div>
-
-            <div className={styles.action_card} onClick={handlePrintReport}>
-              <span className={styles.action_num}>03</span>
-              <div className={styles.action_body}>
-                <span className={styles.action_title}>Dispatch to neuro-oncology team</span>
-                <span className={styles.action_desc}>
-                  Alert neuro-oncology triage team for clinical review & surgical scheduling.
-                </span>
-              </div>
-              <FiArrowRight className={styles.action_arrow} />
-            </div>
+          <div className={styles.topography_footer}>
+            <span>TFJS GRAPHMODEL V1</span>
+            <span>100% CLIENT-SIDE ENCLAVE</span>
           </div>
         </div>
       </div>
