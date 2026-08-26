@@ -1,40 +1,155 @@
-/* 1. The Universal Reset */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Material 3 Expressive Light Color Palette */
+  --m3-primary: #00639b;
+  --m3-on-primary: #ffffff;
+  --m3-primary-container: #ce2a2a;
+  --m3-primary-container-light: #cbe6ff;
+  --m3-on-primary-container: #001d33;
+
+  --m3-secondary: #51606f;
+  --m3-on-secondary: #ffffff;
+  --m3-secondary-container: #d5e4f6;
+  --m3-on-secondary-container: #0e1d2a;
+
+  --m3-tertiary: #6b5778;
+  --m3-on-tertiary: #ffffff;
+  --m3-tertiary-container: #f2daff;
+  --m3-on-tertiary-container: #251431;
+
+  --m3-error: #ba1a1a;
+  --m3-error-container: #ffdad6;
+  --m3-on-error-container: #410002;
+
+  --m3-success: #1b6d43;
+  --m3-success-container: #a5f5bf;
+  --m3-on-success-container: #00210f;
+
+  --m3-warning: #9e4600;
+  --m3-warning-container: #ffdbc9;
+  --m3-on-warning-container: #341100;
+
+  --m3-surface: #f7f9ff;
+  --m3-on-surface: #181c20;
+  --m3-surface-dim: #d8dadf;
+  --m3-surface-bright: #f7f9ff;
+
+  --m3-surface-container-lowest: #ffffff;
+  --m3-surface-container-low: #f1f4f9;
+  --m3-surface-container: #ebeee3;
+  --m3-surface-container-main: #f0f4fa;
+  --m3-surface-container-high: #e5e8ee;
+  --m3-surface-container-highest: #dfe3e9;
+
+  --m3-outline: #72777f;
+  --m3-outline-variant: #c2c7cf;
+
+  /* Material 3 Shape Scale */
+  --m3-shape-corner-xs: 4px;
+  --m3-shape-corner-s: 8px;
+  --m3-shape-corner-m: 12px;
+  --m3-shape-corner-l: 16px;
+  --m3-shape-corner-xl: 28px;
+  --m3-shape-corner-full: 9999px;
+
+  /* Material 3 Expressive Elevation & Motion */
+  --m3-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --m3-elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --m3-elevation-3: 0 4px 12px 3px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  --m3-elevation-4: 0 6px 18px 4px rgba(0, 0, 0, 0.15), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+  --m3-motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --m3-motion-standard: cubic-bezier(0.2, 0, 0, 1);
+  --m3-motion-duration: 0.3s;
+}
+
+/* Material 3 Dark Mode Theme */
+.dark {
+  --m3-primary: #9ecaff;
+  --m3-on-primary: #003258;
+  --m3-primary-container-light: #004a79;
+  --m3-on-primary-container: #d1e4ff;
+
+  --m3-secondary: #b9c8da;
+  --m3-on-secondary: #243240;
+  --m3-secondary-container: #3a4857;
+  --m3-on-secondary-container: #d5e4f6;
+
+  --m3-tertiary: #d6bee6;
+  --m3-on-tertiary: #3b2947;
+  --m3-tertiary-container: #533f5f;
+  --m3-on-tertiary-container: #f2daff;
+
+  --m3-error: #ffb4ab;
+  --m3-error-container: #93000a;
+  --m3-on-error-container: #ffdad6;
+
+  --m3-success: #8ad8a5;
+  --m3-success-container: #00522c;
+  --m3-on-success-container: #a5f5bf;
+
+  --m3-warning: #ffb59d;
+  --m3-warning-container: #7a3300;
+  --m3-on-warning-container: #ffdbc9;
+
+  --m3-surface: #101418;
+  --m3-on-surface: #e0e2e8;
+  --m3-surface-dim: #101418;
+  --m3-surface-bright: #36393e;
+
+  --m3-surface-container-lowest: #0b0f13;
+  --m3-surface-container-low: #181c20;
+  --m3-surface-container: #1c2025;
+  --m3-surface-container-main: #181d24;
+  --m3-surface-container-high: #272a2f;
+  --m3-surface-container-highest: #32353a;
+
+  --m3-outline: #8c9199;
+  --m3-outline-variant: #42474e;
+
+  --m3-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --m3-elevation-2: 0 2px 8px 2px rgba(0, 0, 0, 0.5), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --m3-elevation-3: 0 4px 16px 4px rgba(0, 0, 0, 0.6), 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --m3-elevation-4: 0 8px 24px 6px rgba(0, 0, 0, 0.7), 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Global resets & typography */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Keeps padding from breaking element width */
+  box-sizing: border-box;
 }
 
-/* 2. Body Defaults */
 html, body {
-  font-family: 'Inter', sans-serif; /* Your chosen font */
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased; /* Makes text look sharper */
-  background-color: #ECEEF3;
-}
-
-/* 2b. Dark mode root wrapper (toggled in App.tsx) */
-.dark {
-  background-color: #020617;
-  color: #E5E7EB;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--m3-surface-container-main);
+  color: var(--m3-on-surface);
   min-height: 100vh;
+  transition: background-color var(--m3-motion-duration) var(--m3-motion-standard),
+              color var(--m3-motion-duration) var(--m3-motion-standard);
 }
 
-/* 3. Remove List Bullets */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
 ul, ol {
   list-style: none;
 }
 
-/* 4. Remove Link Styles */
 a {
   text-decoration: none;
   color: inherit;
-}
-
-/* 5. Reset Buttons & Inputs (Optional but helpful) */
-button, input {
-  border: none;
-  outline: none;
-  background: none;
-  font-family: inherit;
 }
