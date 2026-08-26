@@ -37,7 +37,6 @@ const App = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const [appState, setAppState] = useState<"upload" | "loading" | "result">("upload");
   const [currentTab, setCurrentTab] = useState<"landing" | "detector" | "archive" | "about">("landing");
-  const [viewMode, setViewMode] = useState<"coronal" | "sagittal" | "axial">("axial");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -189,32 +188,6 @@ const App = () => {
               </p>
             </div>
 
-            {/* Viewport Plane Toggles */}
-            {currentTab === "detector" && (
-              <div className="view_toggles">
-                <button
-                  className={`view_toggle_btn ${viewMode === "coronal" ? "active" : ""}`}
-                  onClick={() => setViewMode("coronal")}
-                  type="button"
-                >
-                  Coronal
-                </button>
-                <button
-                  className={`view_toggle_btn ${viewMode === "sagittal" ? "active" : ""}`}
-                  onClick={() => setViewMode("sagittal")}
-                  type="button"
-                >
-                  Sagittal
-                </button>
-                <button
-                  className={`view_toggle_btn ${viewMode === "axial" ? "active" : ""}`}
-                  onClick={() => setViewMode("axial")}
-                  type="button"
-                >
-                  Axial T2
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Active View */}
