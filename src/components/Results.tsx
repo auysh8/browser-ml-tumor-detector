@@ -28,6 +28,13 @@ const Results = ({ results, onReset }: ResultsProps) => {
   const pituitaryProb = getProb("Pituitary");
   const noTumorProb = getProb("No Tumor");
 
+  const classes = [
+    { name: "Glioma", prob: gliomaProb, color: "var(--color-glioma)" },
+    { name: "Meningioma", prob: meningiomaProb, color: "var(--color-meningioma)" },
+    { name: "Pituitary", prob: pituitaryProb, color: "var(--color-pituitary)" },
+    { name: "Normal", prob: noTumorProb, color: "var(--color-notumor)" },
+  ];
+
   const handlePrintReport = () => {
     window.print();
   };
@@ -70,86 +77,66 @@ const Results = ({ results, onReset }: ResultsProps) => {
         </div>
 
         {/* Right Softmax Wave Density Curve Chart */}
-        <div className={styles.wave_chart_box}>
-          <svg className={styles.wave_svg} viewBox="0 0 500 160" preserveAspectRatio="none">
-            {/* Baseline */}
-            <line x1="0" y1="150" x2="500" y2="150" stroke="var(--border-subtle)" strokeWidth="1.5" />
+        <div className={styles.wave_chart_container}>
+          <div className={styles.wave_chart_box}>
+            <svg className={styles.wave_svg} viewBox="0 0 500 130">
+              {/* Baseline */}
+              <line x1="0" y1="125" x2="500" y2="125" stroke="var(--border-subtle)" strokeWidth="1.5" />
 
-            {/* Glioma Curve (Plum) */}
-            <path
-              className={styles.animated_wave}
-              d={`M 20 150 C 70 150, 90 ${150 - (gliomaProb / 100) * 120}, 140 ${
-                150 - (gliomaProb / 100) * 120
-              } C 190 ${150 - (gliomaProb / 100) * 120}, 210 150, 260 150 Z`}
-              fill="var(--color-glioma)"
-              opacity="0.8"
-            />
+              {/* Glioma Curve (Plum) */}
+              <path
+                className={styles.animated_wave}
+                d={`M 20 125 C 70 125, 90 ${125 - (gliomaProb / 100) * 105}, 140 ${
+                  125 - (gliomaProb / 100) * 105
+                } C 190 ${125 - (gliomaProb / 100) * 105}, 210 125, 260 125 Z`}
+                fill="var(--color-glioma)"
+                opacity="0.8"
+              />
 
-            {/* Meningioma Curve (Rose) */}
-            <path
-              className={styles.animated_wave}
-              d={`M 120 150 C 170 150, 190 ${150 - (meningiomaProb / 100) * 120}, 240 ${
-                150 - (meningiomaProb / 100) * 120
-              } C 290 ${150 - (meningiomaProb / 100) * 120}, 310 150, 360 150 Z`}
-              fill="var(--color-meningioma)"
-              opacity="0.85"
-            />
+              {/* Meningioma Curve (Rose) */}
+              <path
+                className={styles.animated_wave}
+                d={`M 120 125 C 170 125, 190 ${125 - (meningiomaProb / 100) * 105}, 240 ${
+                  125 - (meningiomaProb / 100) * 105
+                } C 290 ${125 - (meningiomaProb / 100) * 105}, 310 125, 360 125 Z`}
+                fill="var(--color-meningioma)"
+                opacity="0.85"
+              />
 
-            {/* Pituitary Curve (Terracotta) */}
-            <path
-              className={styles.animated_wave}
-              d={`M 220 150 C 270 150, 290 ${150 - (pituitaryProb / 100) * 120}, 340 ${
-                150 - (pituitaryProb / 100) * 120
-              } C 390 ${150 - (pituitaryProb / 100) * 120}, 410 150, 460 150 Z`}
-              fill="var(--color-pituitary)"
-              opacity="0.8"
-            />
+              {/* Pituitary Curve (Terracotta) */}
+              <path
+                className={styles.animated_wave}
+                d={`M 220 125 C 270 125, 290 ${125 - (pituitaryProb / 100) * 105}, 340 ${
+                  125 - (pituitaryProb / 100) * 120
+                } C 390 ${125 - (pituitaryProb / 100) * 105}, 410 125, 460 125 Z`}
+                fill="var(--color-pituitary)"
+                opacity="0.8"
+              />
 
-            {/* No Tumor Curve (Sage) */}
-            <path
-              className={styles.animated_wave}
-              d={`M 300 150 C 350 150, 370 ${150 - (noTumorProb / 100) * 120}, 420 ${
-                150 - (noTumorProb / 100) * 120
-              } C 460 ${150 - (noTumorProb / 100) * 120}, 480 150, 500 150 Z`}
-              fill="var(--color-notumor)"
-              opacity="0.85"
-            />
+              {/* No Tumor Curve (Sage) */}
+              <path
+                className={styles.animated_wave}
+                d={`M 300 125 C 350 125, 370 ${125 - (noTumorProb / 100) * 105}, 420 ${
+                  125 - (noTumorProb / 100) * 105
+                } C 460 ${125 - (noTumorProb / 100) * 105}, 480 125, 500 125 Z`}
+                fill="var(--color-notumor)"
+                opacity="0.85"
+              />
+            </svg>
+          </div>
 
-            {/* Labels & Percentages */}
-            <g className={styles.animated_labels} style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fill: "var(--text-main)" }}>
-              {/* Glioma Peak */}
-              <text x="140" y={Math.min(135, 140 - (gliomaProb / 100) * 120)} textAnchor="middle">
-                GLIOMA
-              </text>
-              <text x="140" y={Math.min(147, 152 - (gliomaProb / 100) * 120)} textAnchor="middle" fontWeight="bold">
-                {gliomaProb}%
-              </text>
-
-              {/* Meningioma Peak */}
-              <text x="240" y={Math.min(135, 140 - (meningiomaProb / 100) * 120)} textAnchor="middle">
-                MENINGIOMA
-              </text>
-              <text x="240" y={Math.min(147, 152 - (meningiomaProb / 100) * 120)} textAnchor="middle" fontWeight="bold">
-                {meningiomaProb}%
-              </text>
-
-              {/* Pituitary Peak */}
-              <text x="340" y={Math.min(135, 140 - (pituitaryProb / 100) * 120)} textAnchor="middle">
-                PITUITARY
-              </text>
-              <text x="340" y={Math.min(147, 152 - (pituitaryProb / 100) * 120)} textAnchor="middle" fontWeight="bold">
-                {pituitaryProb}%
-              </text>
-
-              {/* Normal Peak */}
-              <text x="420" y={Math.min(135, 140 - (noTumorProb / 100) * 120)} textAnchor="middle">
-                NORMAL
-              </text>
-              <text x="420" y={Math.min(147, 152 - (noTumorProb / 100) * 120)} textAnchor="middle" fontWeight="bold">
-                {noTumorProb}%
-              </text>
-            </g>
-          </svg>
+          {/* Clean HTML Legend Overlay beneath curves - No SVG stretching or clipping */}
+          <div className={styles.chart_legend_row}>
+            {classes.map((cls) => (
+              <div key={cls.name} className={styles.legend_item}>
+                <div className={styles.legend_header}>
+                  <span className={styles.legend_dot} style={{ backgroundColor: cls.color }} />
+                  <span className={styles.legend_label}>{cls.name}</span>
+                </div>
+                <span className={styles.legend_value}>{cls.prob}%</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
