@@ -174,22 +174,13 @@ const App = () => {
             <div className="header_titles">
               <h1 className="main_title">
                 {currentTab === "landing"
-                  ? "NeuroScan AI Enclave"
+                  ? "NeuroScan AI"
                   : currentTab === "about"
-                  ? "Model Specifications"
+                  ? "Model Specs"
                   : currentTab === "archive"
-                  ? "Session Scan History"
+                  ? "Scan History"
                   : "Diagnostic Workstation"}
               </h1>
-              <p className="main_subtitle">
-                {currentTab === "landing"
-                  ? "Client-side automated brain MRI screening platform"
-                  : currentTab === "about"
-                  ? "Quantized GraphModel architecture & tensor engine"
-                  : currentTab === "archive"
-                  ? "Evaluated scan logs in current browser session"
-                  : "Automated neural classification & topology metrics"}
-              </p>
             </div>
           </div>
 
@@ -235,10 +226,10 @@ const App = () => {
         {/* Editorial Footer */}
         <footer className="panel_footer">
           <div>
-            <span>Clinical Neuro-Oncology Workstation</span>
+            <span>NeuroScan AI Workstation</span>
           </div>
           <div className="team_names">
-            <span>Client-Side TensorFlow.js Engine</span>
+            <span>TensorFlow.js Engine</span>
           </div>
         </footer>
       </main>

@@ -45,11 +45,7 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
   return (
     <div className={styles.acquisition_card}>
       <div>
-        <span className={styles.mono_tag}>'PRIMARY ACQUISITION'</span>
-        <h2 className={styles.acquisition_title}>Import Patient MRI Scan</h2>
-        <p className={styles.acquisition_sub}>
-          Select or drag an axial brain MRI image scan to run client-side neural classification inside WebGL GPU sandbox.
-        </p>
+        <h2 className={styles.acquisition_title}>Import Brain MRI Scan</h2>
       </div>
 
       <div
@@ -71,28 +67,28 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
             <img
               className={styles.preview_img}
               src={preview}
-              alt="Acquired Scan"
+              alt="Scan"
             />
-            <span className={styles.change_text}>Click or drop file to replace scan</span>
+            <span className={styles.change_text}>Click or drop file to replace</span>
           </div>
         ) : (
           <>
             <FiUploadCloud className={styles.drop_icon} />
-            <span className={styles.drop_title}>Drop brain MRI scan file here</span>
-            <span className={styles.drop_subtitle}>Accepts PNG, JPG, JPEG (224x224 Bilinear Resampled)</span>
+            <span className={styles.drop_title}>Drop brain MRI scan here</span>
+            <span className={styles.drop_subtitle}>PNG, JPG, JPEG</span>
           </>
         )}
       </div>
 
       <div className={styles.action_bar}>
-        <span className={styles.privacy_note}>🔒 100% Client-Side Enclave — No Cloud Transfers</span>
+        <span className={styles.privacy_note}>🔒 100% Client-Side</span>
         <button
           className={styles.submit_btn}
           onClick={() => file && onClick(file)}
           disabled={!file}
           type="button"
         >
-          Execute Neural Analysis →
+          Run Analysis →
         </button>
       </div>
     </div>
