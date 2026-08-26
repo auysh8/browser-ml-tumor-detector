@@ -76,9 +76,9 @@ const TopBar = ({
       {/* Sidebar Profile Footer */}
       <div className="sidebar_footer">
         <div className="user_profile">
-          <div className="user_avatar">P</div>
+          <div className="avatar">O</div>
           <div className="user_info">
-            <span className="user_name">P. Bhandari</span>
+            <span className="user_name">Radiology Operator</span>
             <span className="user_sub">Workstation v1.0</span>
           </div>
         </div>

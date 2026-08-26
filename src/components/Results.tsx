@@ -248,7 +248,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
               <div className={styles.action_body}>
                 <span className={styles.action_title}>Dispatch to neuro-oncology team</span>
                 <span className={styles.action_desc}>
-                  Alert Dr. Shri Prakash Dwivedi & triage team for surgical scheduling.
+                  Alert neuro-oncology triage team for clinical review & surgical scheduling.
                 </span>
               </div>
               <FiArrowRight className={styles.action_arrow} />

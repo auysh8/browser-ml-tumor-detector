@@ -203,13 +203,10 @@ const App = () => {
         {/* Editorial Footer */}
         <footer className="panel_footer">
           <div>
-            <span>Supervised by </span>
-            <strong style={{ color: "var(--text-main)" }}>Dr. Shri Prakash Dwivedi</strong>
+            <span>Clinical Neuro-Oncology Workstation</span>
           </div>
           <div className="team_names">
-            <span>D. Maindolia</span>
-            <span>P. Bhandari</span>
-            <span>N. Sharma</span>
+            <span>Client-Side TensorFlow.js Engine</span>
           </div>
         </footer>
       </main>

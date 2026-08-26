@@ -41,37 +41,37 @@ const About = () => {
 
         {/* Project Supervision & Team */}
         <div className={styles.section_card}>
-          <h3 className={styles.card_heading}>Research & Development Team</h3>
+          <h3 className={styles.card_heading}>Research & Engineering Architecture</h3>
           <div className={styles.team_list}>
             <div className={styles.team_item}>
-              <div className={styles.member_avatar}>SD</div>
+              <div className={styles.member_avatar}>CL</div>
               <div className={styles.member_details}>
-                <span className={styles.member_name}>Dr. Shri Prakash Dwivedi</span>
-                <span className={styles.member_role}>Project Guide & Research Supervisor</span>
+                <span className={styles.member_name}>Clinical Neuro-Oncology Lead</span>
+                <span className={styles.member_role}>Clinical Protocol & Validation</span>
               </div>
             </div>
 
             <div className={styles.team_item}>
-              <div className={styles.member_avatar}>DM</div>
+              <div className={styles.member_avatar}>ML</div>
               <div className={styles.member_details}>
-                <span className={styles.member_name}>Dipesh Maindolia</span>
-                <span className={styles.member_role}>ID: 58875 — ML Integration</span>
+                <span className={styles.member_name}>Machine Learning Group</span>
+                <span className={styles.member_role}>Quantized Model Graph Optimization</span>
               </div>
             </div>
 
             <div className={styles.team_item}>
-              <div className={styles.member_avatar}>PB</div>
+              <div className={styles.member_avatar}>FE</div>
               <div className={styles.member_details}>
-                <span className={styles.member_name}>Pankaj Bhandari</span>
-                <span className={styles.member_role}>ID: 58950 — Workstation Architecture</span>
+                <span className={styles.member_name}>Frontend Engineering Team</span>
+                <span className={styles.member_role}>WebGL GPU Acceleration & Workstation UI</span>
               </div>
             </div>
 
             <div className={styles.team_item}>
-              <div className={styles.member_avatar}>NS</div>
+              <div className={styles.member_avatar}>QA</div>
               <div className={styles.member_details}>
-                <span className={styles.member_name}>Nikunj Sharma</span>
-                <span className={styles.member_role}>ID: 58948 — Model Testing & Evaluation</span>
+                <span className={styles.member_name}>Evaluation & QA Group</span>
+                <span className={styles.member_role}>Validation Metrics & Benchmarking</span>
               </div>
             </div>
           </div>
