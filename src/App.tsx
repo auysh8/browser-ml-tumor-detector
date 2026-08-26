@@ -4,13 +4,16 @@ import UploadMri from "./components/UploadMri";
 import Results from "./components/Results";
 import Loading from "./components/Loading";
 import TopBar from "./components/TopBar";
+import About from "./components/About";
+import "./App.css";
 
-interface AnalysisResult {
+export interface AnalysisResult {
   predictions: string;
   confidence: string;
   urgency: string;
   image: string;
   isError: boolean;
+  classProbabilities?: { label: string; percentage: number }[];
 }
 
 const CLASSES: { [key: number]: string } = {
@@ -24,6 +27,7 @@ const CLASSES: { [key: number]: string } = {
 const App = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const [appState, setAppState] = useState<"upload" | "loading" | "result">("upload");
+  const [currentTab, setCurrentTab] = useState<"detector" | "about">("detector");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -55,8 +59,9 @@ const App = () => {
       const imgElement = document.createElement("img");
       imgElement.src = objectUrl;
 
-      await new Promise((resolve) => {
+      await new Promise((resolve, reject) => {
         imgElement.onload = resolve;
+        imgElement.onerror = reject;
       });
 
       const predictions = tf.tidy(() => {
@@ -71,12 +76,20 @@ const App = () => {
       const data = await predictions.data();
       predictions.dispose();
 
-      const maxConfidence = Math.max(...Array.from(data));
-      const classIndex = Array.from(data).indexOf(maxConfidence);
+      const scoresArray = Array.from(data);
+      const maxConfidence = Math.max(...scoresArray);
+      const classIndex = scoresArray.indexOf(maxConfidence);
       const resultText = CLASSES[classIndex];
       const confidencePercent = (maxConfidence * 100).toFixed(1);
 
-      await new Promise((r) => setTimeout(r, 2000));
+      // Compute class probabilities for detailed breakdown bar visualization
+      const sumProbabilities = scoresArray.reduce((acc, curr) => acc + curr, 0);
+      const classProbabilities = scoresArray.map((prob, idx) => ({
+        label: CLASSES[idx],
+        percentage: sumProbabilities > 0 ? parseFloat(((prob / sumProbabilities) * 100).toFixed(1)) : 0,
+      }));
+
+      await new Promise((r) => setTimeout(r, 1200));
 
       setAnalysisResult({
         predictions: resultText,
@@ -87,6 +100,7 @@ const App = () => {
             : "High",
         image: objectUrl,
         isError: false,
+        classProbabilities,
       });
 
       setAppState("result");
@@ -109,16 +123,31 @@ const App = () => {
   };
 
   return (
-    <div className={isDarkMode ? "dark" : ""}>
-      <TopBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+    <div className={`app_wrapper ${isDarkMode ? "dark" : ""}`}>
+      <TopBar
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        currentTab={currentTab}
+        onTabChange={(tab) => {
+          setCurrentTab(tab);
+        }}
+      />
 
-      {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
+      <main className="main_content">
+        {currentTab === "about" && <About />}
 
-      {appState === "loading" && <Loading />}
+        {currentTab === "detector" && (
+          <>
+            {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
 
-      {appState === "result" && analysisResult && (
-        <Results results={analysisResult} onReset={handleReset} />
-      )}
+            {appState === "loading" && <Loading />}
+
+            {appState === "result" && analysisResult && (
+              <Results results={analysisResult} onReset={handleReset} />
+            )}
+          </>
+        )}
+      </main>
     </div>
   );
 };

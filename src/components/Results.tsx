@@ -1,18 +1,13 @@
 import styles from "./css/Results.module.css";
 import { GiHazardSign } from "react-icons/gi";
-import { BsStars } from "react-icons/bs";
-import { FaArrowRight } from "react-icons/fa";
+import { BsStars, BsCheckCircleFill } from "react-icons/bs";
+import { FaArrowLeft, FaPrint } from "react-icons/fa";
 import { MdBrokenImage } from "react-icons/md";
 import { IoWarningOutline } from "react-icons/io5";
+import type { AnalysisResult } from "../App";
 
 interface ResultsProps {
-  results: {
-    predictions: string;
-    confidence: string;
-    urgency: string;
-    image: string;
-    isError: boolean;
-  };
+  results: AnalysisResult;
   onReset: () => void;
 }
 
@@ -20,98 +15,123 @@ const Results = ({ results, onReset }: ResultsProps) => {
   const isInvalid = results.predictions === "Not an MRI" || results.isError;
   const isNoTumor = results.predictions === "No Tumor";
 
-  const getButtonClass = () => {
-    if (isInvalid) return styles.btn_warning;
-    if (isNoTumor) return styles.btn_success;
-    return styles.btn_danger;
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
     <div className={styles.main_wrapper}>
-      {isInvalid ? (
-        <div className={styles.card_container}>
-          <div className={styles.error_header_row}>
-            <IoWarningOutline className={styles.orange_icon} />
-            <span>PROCESSING ERROR</span>
+      <div className={styles.card_container}>
+        {/* Status Chip Header */}
+        {isInvalid ? (
+          <div className={`${styles.status_chip} ${styles.status_warning}`}>
+            <IoWarningOutline size={18} />
+            <span>Unreadable File / Format Issue</span>
           </div>
-
-          <h2 className={styles.error_title}>Scan Unreadable</h2>
-
-          <p className={styles.error_subtitle}>
-            The uploaded file is either corrupted or in an unsupported format.
-            Please check the file format or try uploading again.
-          </p>
-
-          <div className={styles.invalid_badge}>
-            <GiHazardSign />
-            <span>Invalid Format</span>
+        ) : isNoTumor ? (
+          <div className={`${styles.status_chip} ${styles.status_success}`}>
+            <BsCheckCircleFill size={16} />
+            <span>Analysis Complete — Normal Scan</span>
           </div>
+        ) : (
+          <div className={`${styles.status_chip} ${styles.status_danger}`}>
+            <GiHazardSign size={18} />
+            <span>Analysis Complete — Anomaly Detected</span>
+          </div>
+        )}
 
-          <div className={styles.preview_unavailable_box}>
-            <div className={styles.preview_icon_circle}>
-              <MdBrokenImage size={28} color="#f97316" />
+        {/* Invalid Scan State */}
+        {isInvalid ? (
+          <div className={styles.error_container}>
+            <div className={styles.error_icon}>
+              <MdBrokenImage />
             </div>
-            <h3>Preview Unavailable</h3>
-            <p>
-              The system could not render a preview for this file. Ensure the file
-              is a valid image scan.
+            <h2 className={styles.prediction_title}>Scan Unreadable</h2>
+            <p style={{ color: "var(--m3-outline)", maxWidth: "500px" }}>
+              The uploaded file could not be verified as a valid brain MRI scan or was corrupted. Please verify the input file format.
             </p>
           </div>
-        </div>
-      ) : (
-        <div className={styles.card_container}>
-          <div
-            className={styles.analysis_status}
-            style={{ color: isNoTumor ? "#10b981" : "#ef4444" }}
-          >
-            <GiHazardSign />
-            <span>Analysis Complete</span>
-          </div>
-
-          <div className={styles.results}>
-            <span className={styles.tumor_type}>
-              {isNoTumor
-                ? "No Anomaly Detected"
-                : `Anomaly Detected: ${results.predictions}`}
-            </span>
-
-            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-              <span
-                className={styles.confidence_score}
-                style={{
-                  background: isNoTumor ? "#d1fae5" : "#fee2e2",
-                  color: isNoTumor ? "#065f46" : "#991b1b",
-                }}
-              >
-                <BsStars style={{ marginRight: "6px" }} />
-                {results.confidence}% Confidence
-              </span>
-              <span className={styles.urgency}>
-                Urgency: {results.urgency}
-              </span>
+        ) : (
+          /* Valid MRI Result State */
+          <>
+            <div className={styles.summary_header}>
+              <h2 className={styles.prediction_title}>
+                {isNoTumor ? "No Anomaly Detected" : `Detected: ${results.predictions}`}
+              </h2>
+              <div className={styles.badges_row}>
+                <span className={styles.confidence_pill}>
+                  <BsStars />
+                  {results.confidence}% Model Confidence
+                </span>
+                <span
+                  className={`${styles.urgency_pill} ${
+                    isNoTumor ? styles.urgency_none : styles.urgency_high
+                  }`}
+                >
+                  Clinical Priority: {results.urgency}
+                </span>
+              </div>
             </div>
-          </div>
 
-          {results.image && (
-            <div className={styles.image_container}>
-              <img
-                src={results.image}
-                alt="Scan"
-                className={styles.valid_image}
-              />
+            {/* Split Grid View: MRI Image + Probability Breakdown */}
+            <div className={styles.content_grid}>
+              {results.image && (
+                <div className={styles.image_card}>
+                  <img
+                    src={results.image}
+                    alt="Analyzed Brain MRI Scan"
+                    className={styles.valid_image}
+                  />
+                </div>
+              )}
+
+              {/* Class Probabilities Breakdown */}
+              {results.classProbabilities && (
+                <div className={styles.breakdown_card}>
+                  <h3 className={styles.breakdown_title}>Probability Distribution</h3>
+                  <div className={styles.breakdown_list}>
+                    {results.classProbabilities.map((item) => {
+                      const isTarget = item.label === results.predictions;
+                      return (
+                        <div key={item.label} className={styles.breakdown_item}>
+                          <div className={styles.breakdown_label_row}>
+                            <span style={{ fontWeight: isTarget ? "800" : "600" }}>
+                              {item.label}
+                            </span>
+                            <span>{item.percentage}%</span>
+                          </div>
+                          <div className={styles.breakdown_bar_bg}>
+                            <div
+                              className={`${styles.breakdown_bar_fill} ${
+                                isTarget && !isNoTumor ? styles.highlight : ""
+                              }`}
+                              style={{ width: `${Math.max(item.percentage, 3)}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
+          </>
+        )}
+      </div>
 
-      <div className={styles.action_buttons_row}>
-        <button
-          className={`${styles.btn_action} ${getButtonClass()}`}
-          onClick={onReset}
-        >
-          <FaArrowRight style={{ transform: "rotate(180deg)" }} />
-          <span>Upload New Scan</span>
+      {/* Action Buttons */}
+      <div className={styles.actions_row}>
+        <button className={styles.primary_btn} onClick={onReset}>
+          <FaArrowLeft />
+          <span>Upload & Analyze New Scan</span>
         </button>
+
+        {!isInvalid && (
+          <button className={styles.secondary_btn} onClick={handlePrint}>
+            <FaPrint />
+            <span>Print Report</span>
+          </button>
+        )}
       </div>
     </div>
   );
