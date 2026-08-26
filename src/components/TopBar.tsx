@@ -32,9 +32,11 @@ const TopBar = ({
       `button[data-tab="${currentTab}"]`
     );
     if (activeBtn) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
       setPillStyle({
-        top: activeBtn.offsetTop,
-        height: activeBtn.offsetHeight,
+        top: btnRect.top - navRect.top,
+        height: btnRect.height,
         opacity: 1,
       });
     }
@@ -131,16 +133,6 @@ const TopBar = ({
 
       {/* Sidebar Profile Footer */}
       <div className="sidebar_footer">
-        <div className="user_profile">
-          <div className="user_avatar" title="Radiology Operator">O</div>
-          {!isCollapsed && (
-            <div className="user_info">
-              <span className="user_name">Radiology Operator</span>
-              <span className="user_sub">Workstation v1.0</span>
-            </div>
-          )}
-        </div>
-
         <div className="footer_actions">
           <button
             className="theme_toggle_btn"
@@ -149,9 +141,14 @@ const TopBar = ({
             type="button"
           >
             {isDarkMode ? <FiSun /> : <BsMoon />}
+            {!isCollapsed && (
+              <span className="theme_label">
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </span>
+            )}
           </button>
-          {!isCollapsed && <span className="tfjs_tag">TFJS</span>}
         </div>
+        {!isCollapsed && <span className="tfjs_tag">v1.0 • TFJS</span>}
       </div>
     </aside>
   );
