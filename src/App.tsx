@@ -43,6 +43,16 @@ const App = () => {
     loadModel();
   }, []);
 
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      document.body.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.body.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   const handleAnalyze = async (file: File) => {
@@ -82,7 +92,6 @@ const App = () => {
       const resultText = CLASSES[classIndex];
       const confidencePercent = (maxConfidence * 100).toFixed(1);
 
-      // Compute class probabilities for detailed breakdown bar visualization
       const sumProbabilities = scoresArray.reduce((acc, curr) => acc + curr, 0);
       const classProbabilities = scoresArray.map((prob, idx) => ({
         label: CLASSES[idx],
