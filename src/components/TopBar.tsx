@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from "react";
 import { BsMoon } from "react-icons/bs";
 import { FiSun } from "react-icons/fi";
 
@@ -14,6 +15,27 @@ const TopBar = ({
   currentTab,
   onTabChange,
 }: TopBarProps) => {
+  const navRef = useRef<HTMLDivElement>(null);
+  const [pillStyle, setPillStyle] = useState<{ top: number; height: number; opacity: number }>({
+    top: 0,
+    height: 0,
+    opacity: 0,
+  });
+
+  useLayoutEffect(() => {
+    if (!navRef.current) return;
+    const activeBtn = navRef.current.querySelector<HTMLButtonElement>(
+      `button[data-tab="${currentTab}"]`
+    );
+    if (activeBtn) {
+      setPillStyle({
+        top: activeBtn.offsetTop,
+        height: activeBtn.offsetHeight,
+        opacity: 1,
+      });
+    }
+  }, [currentTab]);
+
   return (
     <aside className="sidebar">
       <div className="sidebar_top">
@@ -28,10 +50,21 @@ const TopBar = ({
           <span>NeuroScan</span>
         </div>
 
-        {/* Navigation Section 1 */}
-        <div className="sidebar_nav">
+        {/* Navigation Section */}
+        <div className="sidebar_nav" ref={navRef}>
+          {/* Animated Active Pill Background Indicator */}
+          <div
+            className="active_pill_indicator"
+            style={{
+              top: `${pillStyle.top}px`,
+              height: `${pillStyle.height}px`,
+              opacity: pillStyle.opacity,
+            }}
+          />
+
           <div className="nav_group">
             <button
+              data-tab="landing"
               className={`nav_item ${currentTab === "landing" ? "active" : ""}`}
               onClick={() => onTabChange("landing")}
               type="button"
@@ -39,6 +72,7 @@ const TopBar = ({
               Overview & Landing
             </button>
             <button
+              data-tab="detector"
               className={`nav_item ${currentTab === "detector" ? "active" : ""}`}
               onClick={() => onTabChange("detector")}
               type="button"
@@ -46,6 +80,7 @@ const TopBar = ({
               Neural Analysis Workstation
             </button>
             <button
+              data-tab="archive"
               className={`nav_item ${currentTab === "archive" ? "active" : ""}`}
               onClick={() => onTabChange("archive")}
               type="button"
@@ -56,9 +91,9 @@ const TopBar = ({
 
           <div className="nav_divider"></div>
 
-          {/* Navigation Section 2 */}
           <div className="nav_group">
             <button
+              data-tab="about"
               className={`nav_item ${currentTab === "about" ? "active" : ""}`}
               onClick={() => onTabChange("about")}
               type="button"
