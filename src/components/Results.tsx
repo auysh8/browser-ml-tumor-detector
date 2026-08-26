@@ -77,6 +77,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
             {/* Glioma Curve (Plum) */}
             <path
+              className={styles.animated_wave}
               d={`M 20 150 C 70 150, 90 ${150 - (gliomaProb / 100) * 120}, 140 ${
                 150 - (gliomaProb / 100) * 120
               } C 190 ${150 - (gliomaProb / 100) * 120}, 210 150, 260 150 Z`}
@@ -86,6 +87,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
             {/* Meningioma Curve (Rose) */}
             <path
+              className={styles.animated_wave}
               d={`M 120 150 C 170 150, 190 ${150 - (meningiomaProb / 100) * 120}, 240 ${
                 150 - (meningiomaProb / 100) * 120
               } C 290 ${150 - (meningiomaProb / 100) * 120}, 310 150, 360 150 Z`}
@@ -95,6 +97,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
             {/* Pituitary Curve (Terracotta) */}
             <path
+              className={styles.animated_wave}
               d={`M 220 150 C 270 150, 290 ${150 - (pituitaryProb / 100) * 120}, 340 ${
                 150 - (pituitaryProb / 100) * 120
               } C 390 ${150 - (pituitaryProb / 100) * 120}, 410 150, 460 150 Z`}
@@ -104,6 +107,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
             {/* No Tumor Curve (Sage) */}
             <path
+              className={styles.animated_wave}
               d={`M 300 150 C 350 150, 370 ${150 - (noTumorProb / 100) * 120}, 420 ${
                 150 - (noTumorProb / 100) * 120
               } C 460 ${150 - (noTumorProb / 100) * 120}, 480 150, 500 150 Z`}
@@ -112,7 +116,7 @@ const Results = ({ results, onReset }: ResultsProps) => {
             />
 
             {/* Labels & Percentages */}
-            <g style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fill: "var(--text-main)" }}>
+            <g className={styles.animated_labels} style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fill: "var(--text-main)" }}>
               {/* Glioma Peak */}
               <text x="140" y={Math.min(135, 140 - (gliomaProb / 100) * 120)} textAnchor="middle">
                 GLIOMA
