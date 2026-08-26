@@ -1,8 +1,7 @@
 import { useState, type ChangeEvent, type DragEvent } from "react";
 import styles from "./css/UploadMri.module.css";
-import { FaCloudUploadAlt, FaArrowRight, FaBrain } from "react-icons/fa";
+import { FaCloudUploadAlt, FaArrowRight, FaBrain, FaLock } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-import { IoMdLock } from "react-icons/io";
 
 interface UploadMriProps {
   onClick: (file: File) => void;
@@ -45,24 +44,37 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
   };
 
   return (
-    <div className={styles.main_container}>
-      <div className={styles.header_badge}>
-        <FaBrain className={styles.header_icon} />
-        <span>MRI Neural Diagnostics</span>
+    <div className={styles.workstation_card}>
+      {/* Header */}
+      <div className={styles.card_header}>
+        <div className={styles.header_title_group}>
+          <div className={styles.header_icon_circle}>
+            <FaBrain />
+          </div>
+          <div>
+            <h1 className={styles.title}>MRI Diagnostic Acquisition</h1>
+            <p className={styles.subtitle}>
+              Load brain MRI DICOM/Image scan into local TensorFlow.js neural tensor memory
+            </p>
+          </div>
+        </div>
+        <div className={styles.spec_badge}>
+          <span>TENSOR: 224x224x3</span>
+        </div>
       </div>
 
-      <h1 className={styles.heading}>Brain Scan Analysis</h1>
-      <p className={styles.instructions}>
-        Select or drag a brain MRI image scan to run real-time client-side machine learning diagnostic classification.
-      </p>
-
-      {/* Dropzone Container */}
+      {/* DICOM Dropzone Viewport */}
       <div
-        className={`${styles.input_area} ${isDragging ? styles.is_dragging : ""}`}
+        className={`${styles.dicom_viewport} ${isDragging ? styles.is_dragging : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
+        <div className={styles.corner_reticle_tl}></div>
+        <div className={styles.corner_reticle_tr}></div>
+        <div className={styles.corner_reticle_bl}></div>
+        <div className={styles.corner_reticle_br}></div>
+
         <input
           type="file"
           name="file_upload"
@@ -72,41 +84,42 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
         />
 
         {preview ? (
-          <div className={styles.preview_wrapper}>
+          <div className={styles.preview_container}>
             <img
-              className={styles.preview_img}
+              className={styles.preview_frame}
               src={preview}
-              alt="Uploaded MRI Preview"
+              alt="Acquired Brain MRI Scan"
             />
-            <span className={styles.change_file_text}>Click or drop new file to replace</span>
+            <span className={styles.replace_chip}>Click or drag new scan to replace</span>
           </div>
         ) : (
           <>
-            <div className={styles.icon_circle}>
+            <div className={styles.upload_icon_box}>
               <FaCloudUploadAlt />
             </div>
-            <span className={styles.drop_title}>Drop your MRI scan here</span>
-            <span className={styles.drop_subtitle}>or click to browse files (PNG, JPG, JPEG)</span>
+            <span className={styles.prompt_main}>Import Patient MRI Scan</span>
+            <span className={styles.prompt_sub}>Drag and drop DICOM / PNG / JPG file or browse local drive</span>
           </>
         )}
       </div>
 
-      {/* Action Button */}
-      <button
-        className={styles.submit_button}
-        onClick={() => file && onClick(file)}
-        disabled={!file}
-        type="button"
-      >
-        <BsStars size={18} />
-        <span>Analyze MRI Scan</span>
-        <FaArrowRight size={16} />
-      </button>
+      {/* Action Bar */}
+      <div className={styles.action_bar}>
+        <button
+          className={styles.analyze_btn}
+          onClick={() => file && onClick(file)}
+          disabled={!file}
+          type="button"
+        >
+          <BsStars size={18} />
+          <span>Execute Neural Classification</span>
+          <FaArrowRight size={15} />
+        </button>
 
-      {/* Security Footer */}
-      <div className={styles.footer}>
-        <IoMdLock size={15} />
-        <span>100% Private On-Device AI — Medical imagery never leaves your browser.</span>
+        <div className={styles.compliance_footer}>
+          <FaLock style={{ color: "var(--m3-success)" }} />
+          <span>Private Local Inference — Zero Cloud Data Retention</span>
+        </div>
       </div>
     </div>
   );
