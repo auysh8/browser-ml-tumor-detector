@@ -14,7 +14,6 @@ const Results = ({ results, onReset }: ResultsProps) => {
   const isInvalid = results.predictions === "Not an MRI" || results.isError;
   const isNoTumor = results.predictions === "No Tumor";
 
-  // Helper to extract probability percentage for a class name
   const getProb = (labelName: string) => {
     if (!results.classProbabilities) return 0;
     const match = results.classProbabilities.find(
@@ -23,16 +22,11 @@ const Results = ({ results, onReset }: ResultsProps) => {
     return match ? match.percentage : 0;
   };
 
-  const gliomaProb = getProb("Glioma");
-  const meningiomaProb = getProb("Meningioma");
-  const pituitaryProb = getProb("Pituitary");
-  const noTumorProb = getProb("No Tumor");
-
   const classes = [
-    { name: "Glioma", prob: gliomaProb, color: "var(--color-glioma)" },
-    { name: "Meningioma", prob: meningiomaProb, color: "var(--color-meningioma)" },
-    { name: "Pituitary", prob: pituitaryProb, color: "var(--color-pituitary)" },
-    { name: "Normal", prob: noTumorProb, color: "var(--color-notumor)" },
+    { name: "Glioma", prob: getProb("Glioma"), color: "var(--color-glioma)" },
+    { name: "Meningioma", prob: getProb("Meningioma"), color: "var(--color-meningioma)" },
+    { name: "Pituitary", prob: getProb("Pituitary"), color: "var(--color-pituitary)" },
+    { name: "Normal", prob: getProb("No Tumor"), color: "var(--color-notumor)" },
   ];
 
   const handlePrintReport = () => {
@@ -46,7 +40,6 @@ const Results = ({ results, onReset }: ResultsProps) => {
       confidenceScore: `${results.confidence}%`,
       urgency: results.urgency,
       probabilities: results.classProbabilities,
-      runtime: "TensorFlow.js WebGL Execution Enclave",
     };
     navigator.clipboard.writeText(JSON.stringify(telemetryData, null, 2));
     setCopiedStatus(true);
@@ -55,30 +48,24 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
   return (
     <div className={styles.editorial_wrapper}>
-      {/* Top Primary Finding & Softmax Wave Chart Grid */}
+      {/* Finding & Chart */}
       <div className={styles.top_finding_grid}>
-        {/* Left Finding Info */}
         <div className={styles.finding_info}>
-          <span className={styles.mono_label}>'PRIMARY FINDING'</span>
           <div className={styles.cert_number}>
             <span>{isInvalid ? "0.0" : results.confidence}</span>
-            <span className={styles.cert_unit}>% cert.</span>
+            <span className={styles.cert_unit}>% confidence</span>
           </div>
           <h2 className={styles.finding_heading}>
             {isInvalid
-              ? "Scan Unreadable / Format Error"
+              ? "Unreadable / Format Error"
               : isNoTumor
-              ? "No anomaly detected"
-              : `${results.predictions} mass detected`}
+              ? "No Tumor Detected"
+              : `${results.predictions}`}
           </h2>
-          <p className={styles.finding_sub}>
-            Tensor calculated in WebGL GPU sandbox with 38ms latency.
-          </p>
         </div>
 
-        {/* Right Softmax Wave Density Curve Chart */}
+        {/* Probability Density Chart */}
         <div className={styles.wave_chart_container}>
-          {/* 4-Column Synchronized Wave & Label Columns */}
           <div className={styles.chart_columns_grid}>
             {classes.map((cls) => {
               const heightPercentage = Math.max(0, Math.min(100, cls.prob));
@@ -114,20 +101,13 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
       {/* Active Scan Display */}
       <div className={styles.full_topography_section}>
-        <div className={styles.topography_header}>
-          <h3 className={styles.section_title}>
-            <span>⊕ Active Patient MRI Scan Slice</span>
-          </h3>
-        </div>
-
         <div className={styles.topography_box}>
           <div className={styles.scan_content_row}>
             <div className={styles.scan_image_frame}>
-              <span className={styles.scan_badge}>S14</span>
               {results.image ? (
                 <img
                   src={results.image}
-                  alt="Uploaded MRI Scan"
+                  alt="MRI Scan"
                   style={{ filter: isInverted ? "invert(100%)" : "none" }}
                 />
               ) : (
@@ -137,21 +117,21 @@ const Results = ({ results, onReset }: ResultsProps) => {
 
             <div className={styles.scan_specs_list}>
               <div className={styles.spec_row}>
-                <span className={styles.spec_key}>Patient Record</span>
-                <span className={styles.spec_val}>ANON-SCAN-01</span>
+                <span className={styles.spec_key}>Classification</span>
+                <span className={styles.spec_val}>{results.predictions}</span>
               </div>
               <div className={styles.spec_row}>
-                <span className={styles.spec_key}>Resolution</span>
-                <span className={styles.spec_val}>224 × 224 RGB</span>
+                <span className={styles.spec_key}>Confidence</span>
+                <span className={styles.spec_val}>{results.confidence}%</span>
               </div>
               <div className={styles.spec_row}>
-                <span className={styles.spec_key}>Inference Engine</span>
+                <span className={styles.spec_key}>Engine</span>
                 <span className={styles.spec_val}>TensorFlow.js WebGL</span>
               </div>
 
               <div className={styles.scan_btn_row}>
                 <button className={styles.mini_btn} onClick={onReset} type="button">
-                  Import scan
+                  New Scan
                 </button>
                 <button
                   className={styles.mini_btn_outline}
@@ -172,15 +152,10 @@ const Results = ({ results, onReset }: ResultsProps) => {
                   onClick={handlePrintReport}
                   type="button"
                 >
-                  Print Report
+                  Print
                 </button>
               </div>
             </div>
-          </div>
-
-          <div className={styles.topography_footer}>
-            <span>TFJS GRAPHMODEL V1</span>
-            <span>100% CLIENT-SIDE ENCLAVE</span>
           </div>
         </div>
       </div>

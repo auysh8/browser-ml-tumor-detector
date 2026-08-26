@@ -25,20 +25,16 @@ const ScanArchive = ({
     <div className={styles.archive_wrapper}>
       <div className={styles.archive_header}>
         <div>
-          <span className={styles.mono_tag}>'LOCAL SESSION LOGS'</span>
-          <h2 className={styles.archive_title}>Session Scan Archive</h2>
-          <p className={styles.archive_sub}>
-            Evaluated patient scan history stored in client session memory.
-          </p>
+          <h2 className={styles.archive_title}>Scan History</h2>
         </div>
 
         <div className={styles.header_actions}>
           <button className={styles.action_btn} onClick={onNewScan} type="button">
-            ＋ Analyze New Scan
+            ＋ New Scan
           </button>
           {history.length > 0 && (
             <button className={styles.clear_btn} onClick={onClearHistory} type="button">
-              Clear Session Logs
+              Clear History
             </button>
           )}
         </div>
@@ -46,12 +42,12 @@ const ScanArchive = ({
 
       {history.length === 0 ? (
         <div className={styles.empty_state}>
-          <h3>No Scans Analyzed in Current Session</h3>
+          <h3>No Scans in History</h3>
           <p>
-            When you evaluate brain MRI scans in the Neural Analysis Workstation, local classification logs and probability distributions will appear here.
+            Scans analyzed during this session will appear here.
           </p>
           <button className={styles.action_btn} onClick={onNewScan} type="button">
-            Go to Workstation
+            Open Workstation
           </button>
         </div>
       ) : (
@@ -59,11 +55,11 @@ const ScanArchive = ({
           <table className={styles.archive_table}>
             <thead>
               <tr>
-                <th>Timestamp</th>
-                <th>Primary Classification</th>
+                <th>Time</th>
+                <th>Classification</th>
                 <th>Confidence</th>
-                <th>Urgency Level</th>
-                <th>Actions</th>
+                <th>Urgency</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -91,7 +87,7 @@ const ScanArchive = ({
                       onClick={() => onSelectResult(entry.result)}
                       type="button"
                     >
-                      Inspect Report →
+                      View →
                     </button>
                   </td>
                 </tr>

@@ -13,25 +13,25 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
       <section className={styles.hero_section}>
         <div className={styles.hero_badge}>
           <span className={styles.badge_dot}></span>
-          <span>Browser-Based Neural Oncology Enclave</span>
+          <span>Browser Machine Learning Platform</span>
         </div>
 
         <h1 className={styles.hero_title}>
-          Automated Brain Tumor Detection <br />
-          <span className={styles.hero_title_italic}>Directly In Your Web Browser</span>
+          Brain Tumor Screening <br />
+          <span className={styles.hero_title_italic}>Directly In Browser</span>
         </h1>
 
         <p className={styles.hero_subtitle}>
-          NeuroScan leverages client-side WebGL acceleration and TensorFlow.js to execute quantized convolutional graph models locally. Zero cloud transfers, zero data retention, and instant inference latency.
+          Private WebGL-accelerated neural classification. Zero cloud transfers, local processing, and sub-50ms latency.
         </p>
 
         <div className={styles.hero_ctas}>
           <button className={styles.cta_primary} onClick={onLaunchDashboard} type="button">
-            <span>Launch Clinical Dashboard</span>
+            <span>Open Workstation</span>
             <FiArrowRight className={styles.cta_icon} />
           </button>
           <button className={styles.cta_secondary} onClick={onViewModelSpecs} type="button">
-            <span>Model Specifications</span>
+            <span>Model Specs</span>
           </button>
         </div>
 
@@ -41,20 +41,20 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
             <FiShield className={styles.highlight_icon} />
             <div>
               <strong>100% Private</strong>
-              <span>Scans never leave browser sandbox</span>
+              <span>Runs in browser memory</span>
             </div>
           </div>
           <div className={styles.highlight_item}>
             <FiCpu className={styles.highlight_icon} />
             <div>
               <strong>WebGL GPU Engine</strong>
-              <span>Sub-50ms local inference latency</span>
+              <span>Sub-50ms inference</span>
             </div>
           </div>
           <div className={styles.highlight_item}>
             <FiActivity className={styles.highlight_icon} />
             <div>
-              <strong>4-Class Classification</strong>
+              <strong>4 Classes</strong>
               <span>Glioma, Meningioma, Pituitary, Normal</span>
             </div>
           </div>
@@ -63,22 +63,14 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
 
       {/* Feature Grid Section */}
       <section className={styles.features_section}>
-        <div className={styles.section_header}>
-          <span className={styles.mono_tag}>'CORE CAPABILITIES'</span>
-          <h2 className={styles.section_title}>Engineering Designed for Precision & Privacy</h2>
-          <p className={styles.section_sub}>
-            Combining modern browser machine learning runtimes with clinical-grade visual analytics and local telemetry export.
-          </p>
-        </div>
-
         <div className={styles.feature_grid}>
           <div className={styles.feature_card}>
             <div className={styles.feature_icon_box}>
               <FiShield />
             </div>
-            <h3>Zero-Retention Enclave</h3>
+            <h3>Private Sandbox</h3>
             <p>
-              Patient MRI acquisitions are resampled and evaluated locally in-memory. No external API calls, servers, or cloud storage required.
+              Scans are evaluated locally in memory without API calls or cloud uploads.
             </p>
           </div>
 
@@ -86,9 +78,9 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
             <div className={styles.feature_icon_box}>
               <FiLayers />
             </div>
-            <h3>Softmax Probability Curves</h3>
+            <h3>Probability Distribution</h3>
             <p>
-              View continuous visual probability density curves representing model logits for Glioma, Meningioma, Pituitary, and Normal classifications.
+              Real-time logits and softmax confidence scores across all scan categories.
             </p>
           </div>
 
@@ -96,9 +88,9 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
             <div className={styles.feature_icon_box}>
               <FiCpu />
             </div>
-            <h3>GraphModel Quantization</h3>
+            <h3>Quantized Model</h3>
             <p>
-              Lightweight 224x224 bilinear input tensor graph model optimized for rapid memory allocation and execution on client WebGL GPUs.
+              Optimized 224x224 graph model for client-side GPU acceleration.
             </p>
           </div>
         </div>
@@ -106,41 +98,24 @@ const LandingPage = ({ onLaunchDashboard, onViewModelSpecs }: LandingPageProps) 
 
       {/* Workflow Section */}
       <section className={styles.workflow_section}>
-        <div className={styles.section_header}>
-          <span className={styles.mono_tag}>'OPERATIONAL WORKFLOW'</span>
-          <h2 className={styles.section_title}>3-Step Diagnostic Screening</h2>
-        </div>
-
         <div className={styles.workflow_grid}>
           <div className={styles.workflow_step}>
             <span className={styles.step_num}>01</span>
-            <h4>Import Axial Scan</h4>
-            <p>Select or drag an axial brain MRI scan image directly into the workstation dropzone.</p>
+            <h4>Import Scan</h4>
+            <p>Drop or select an MRI image file.</p>
           </div>
 
           <div className={styles.workflow_step}>
             <span className={styles.step_num}>02</span>
-            <h4>Local Inference</h4>
-            <p>TensorFlow.js processes the tensor in WebGL sandbox with real-time confidence metrics.</p>
+            <h4>Analyze</h4>
+            <p>Process tensor in WebGL sandbox.</p>
           </div>
 
           <div className={styles.workflow_step}>
             <span className={styles.step_num}>03</span>
-            <h4>Export Telemetry</h4>
-            <p>Inspect topography, toggle contrast inversion, and copy JSON telemetry or print reports.</p>
+            <h4>Review</h4>
+            <p>View diagnosis, curves, and export JSON.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Call to Action Banner */}
-      <section className={styles.banner_section}>
-        <div className={styles.banner_content}>
-          <h2>Ready to perform browser-based neural screening?</h2>
-          <p>Access the workstation dashboard immediately without registration or data upload.</p>
-          <button className={styles.cta_primary} onClick={onLaunchDashboard} type="button">
-            <span>Open Workstation Dashboard</span>
-            <FiArrowRight className={styles.cta_icon} />
-          </button>
         </div>
       </section>
     </div>
