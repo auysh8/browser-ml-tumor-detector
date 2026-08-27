@@ -26,14 +26,6 @@ const TopBar = ({
     opacity: 0,
   });
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 850);
-
-  useLayoutEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 850);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   useLayoutEffect(() => {
     if (!navRef.current) return;
     const activeBtn = navRef.current.querySelector<HTMLButtonElement>(
@@ -42,21 +34,13 @@ const TopBar = ({
     if (activeBtn) {
       const navRect = navRef.current.getBoundingClientRect();
       const btnRect = activeBtn.getBoundingClientRect();
-      if (isMobile) {
-        setPillStyle({
-          top: btnRect.left - navRect.left,
-          height: btnRect.width,
-          opacity: 1,
-        });
-      } else {
-        setPillStyle({
-          top: btnRect.top - navRect.top,
-          height: btnRect.height,
-          opacity: 1,
-        });
-      }
+      setPillStyle({
+        top: btnRect.top - navRect.top,
+        height: btnRect.height,
+        opacity: 1,
+      });
     }
-  }, [currentTab, isCollapsed, isMobile]);
+  }, [currentTab, isCollapsed]);
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
@@ -90,23 +74,13 @@ const TopBar = ({
           {/* Animated Active Pill Background Indicator */}
           <div
             className="active_pill_indicator"
-            style={
-              isMobile
-                ? {
-                    left: `${pillStyle.top}px`,
-                    width: `${pillStyle.height}px`,
-                    height: "100%",
-                    top: 0,
-                    opacity: pillStyle.opacity,
-                  }
-                : {
-                    top: `${pillStyle.top}px`,
-                    height: `${pillStyle.height}px`,
-                    left: 0,
-                    right: 0,
-                    opacity: pillStyle.opacity,
-                  }
-            }
+            style={{
+              top: `${pillStyle.top}px`,
+              height: `${pillStyle.height}px`,
+              left: 0,
+              right: 0,
+              opacity: pillStyle.opacity,
+            }}
           />
 
           <div className="nav_group">
@@ -159,40 +133,25 @@ const TopBar = ({
         </div>
       </div>
 
-      {/* Mobile Theme Toggle Button in Header if Mobile */}
-      {isMobile ? (
-        <div className="mobile_header_actions" style={{ position: "absolute", right: "1rem", top: "0.85rem" }}>
+      {/* Sidebar Profile Footer */}
+      <div className="sidebar_footer">
+        <div className="footer_actions">
           <button
             className="theme_toggle_btn"
             onClick={toggleDarkMode}
             title={isDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
             type="button"
-            aria-label="Toggle Theme"
           >
             {isDarkMode ? <FiSun /> : <BsMoon />}
+            {!isCollapsed && (
+              <span className="theme_label">
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </span>
+            )}
           </button>
         </div>
-      ) : (
-        /* Sidebar Profile Footer */
-        <div className="sidebar_footer">
-          <div className="footer_actions">
-            <button
-              className="theme_toggle_btn"
-              onClick={toggleDarkMode}
-              title={isDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
-              type="button"
-            >
-              {isDarkMode ? <FiSun /> : <BsMoon />}
-              {!isCollapsed && (
-                <span className="theme_label">
-                  {isDarkMode ? "Light Mode" : "Dark Mode"}
-                </span>
-              )}
-            </button>
-          </div>
-          {!isCollapsed && <span className="tfjs_tag">v1.0 • TFJS</span>}
-        </div>
-      )}
+        {!isCollapsed && <span className="tfjs_tag">v1.0 • TFJS</span>}
+      </div>
     </aside>
   );
 };

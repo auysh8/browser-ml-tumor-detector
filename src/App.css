@@ -276,100 +276,69 @@
 @media (max-width: 850px) {
   .workstation_frame,
   .workstation_frame.sidebar-collapsed {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    height: auto;
+    grid-template-columns: 68px 1fr;
+    height: 100vh;
     min-height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .sidebar,
   .sidebar.collapsed {
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border-subtle);
-    padding: 0.85rem 1rem 0.65rem 1rem;
-    position: sticky;
+    height: 100vh;
+    padding: 1.25rem 0.5rem;
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: none;
+    position: relative;
     top: 0;
-    background-color: var(--bg-card);
-    z-index: 100;
   }
 
-  .sidebar_top {
-    gap: 0.65rem;
-  }
-
-  .sidebar_header {
-    width: 100%;
-  }
-
-  .collapse_toggle_btn {
+  .sidebar .nav_label,
+  .sidebar .brand_title span:not(.brand_icon),
+  .sidebar .theme_label,
+  .sidebar .tfjs_tag {
     display: none;
   }
 
-  .sidebar_nav {
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    gap: 6px;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+  .sidebar .sidebar_header {
+    justify-content: center;
   }
 
-  .nav_group {
-    flex-direction: row;
-    gap: 4px;
-  }
-
-  .nav_divider {
-    width: 1px;
-    height: 20px;
-    margin: 0 4px;
-    align-self: center;
-  }
-
-  .nav_item {
-    padding: 6px 10px;
-    white-space: nowrap;
-  }
-
-  .sidebar_footer {
+  .sidebar .collapse_toggle_btn {
     display: none;
+  }
+
+  .sidebar .nav_item {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .sidebar .sidebar_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .main_panel {
-    height: auto;
-    padding: 1rem 1rem 1.5rem 1rem;
-    overflow-y: visible;
-    justify-content: flex-start;
+    height: 100vh;
+    padding: 1.5rem 1.25rem;
+    overflow-y: auto;
   }
 
   .panel_header {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .main_title {
-    font-size: 1.5rem;
-  }
-
-  .panel_footer {
-    margin-top: 2rem;
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 480px) {
   .main_panel {
-    padding: 1rem 0.75rem;
+    padding: 1.25rem 0.85rem;
   }
 
   .main_title {
-    font-size: 1.4rem;
-  }
-
-  .brand_title {
-    font-size: 1.1rem;
+    font-size: 1.35rem;
   }
 }
