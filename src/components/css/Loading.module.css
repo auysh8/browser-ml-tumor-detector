@@ -30,17 +30,8 @@
 
 .title {
   font-family: var(--font-sans);
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  font-family: var(--font-sans);
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  max-width: 85%;
-  margin: 0 auto;
-  line-height: 1.4;
+  margin-bottom: 0;
 }
