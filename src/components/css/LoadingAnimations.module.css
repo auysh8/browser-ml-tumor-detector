@@ -1,0 +1,198 @@
+.svg_wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+}
+
+.svg_canvas {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 1. BRAIN SCAN ANIMATIONS */
+.tech_ring {
+  transform-origin: center;
+  animation: rotateTechRing 12s linear infinite;
+}
+
+@keyframes rotateTechRing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.brain_group {
+  transform-origin: center;
+  animation: brainPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes brainPulse {
+  0% {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.laser_scanner {
+  animation: laserScan 2s ease-in-out infinite alternate;
+}
+
+@keyframes laserScan {
+  0% {
+    transform: translateY(30px);
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(150px);
+    opacity: 0.2;
+  }
+}
+
+/* 2. NEURAL NETWORK ANIMATIONS */
+.connection_line {
+  stroke-dasharray: 4 3;
+  animation: dashMove 1.5s linear infinite;
+}
+
+@keyframes dashMove {
+  from {
+    stroke-dashoffset: 14;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pulse_dot {
+  opacity: 0;
+  animation: dotPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.p1 {
+  animation-delay: 0s;
+  cx: 40; cy: 50;
+  animation-name: path1;
+}
+
+.p2 {
+  animation-delay: 0.4s;
+  cx: 40; cy: 90;
+  animation-name: path2;
+}
+
+.p3 {
+  animation-delay: 0.8s;
+  cx: 40; cy: 130;
+  animation-name: path3;
+}
+
+.p4 {
+  animation-delay: 1.2s;
+  cx: 90; cy: 40;
+  animation-name: path4;
+}
+
+.p5 {
+  animation-delay: 1.6s;
+  cx: 90; cy: 90;
+  animation-name: path5;
+}
+
+@keyframes path1 {
+  0% { cx: 40px; cy: 50px; opacity: 1; }
+  50% { cx: 90px; cy: 40px; opacity: 1; }
+  100% { cx: 140px; cy: 65px; opacity: 0; }
+}
+
+@keyframes path2 {
+  0% { cx: 40px; cy: 90px; opacity: 1; }
+  50% { cx: 90px; cy: 90px; opacity: 1; }
+  100% { cx: 140px; cy: 115px; opacity: 0; }
+}
+
+@keyframes path3 {
+  0% { cx: 40px; cy: 130px; opacity: 1; }
+  50% { cx: 90px; cy: 140px; opacity: 1; }
+  100% { cx: 140px; cy: 115px; opacity: 0; }
+}
+
+@keyframes path4 {
+  0% { cx: 90px; cy: 40px; opacity: 1; }
+  100% { cx: 140px; cy: 65px; opacity: 0; }
+}
+
+@keyframes path5 {
+  0% { cx: 90px; cy: 90px; opacity: 1; }
+  100% { cx: 140px; cy: 115px; opacity: 0; }
+}
+
+.node_core {
+  animation: nodeGlow 1.8s ease-in-out infinite alternate;
+}
+
+.node_core_center {
+  animation: nodeGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes nodeGlow {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* 3. WAVEFORM ANIMATIONS */
+.waveform_path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: dashSweep 2s ease-in-out infinite;
+}
+
+@keyframes dashSweep {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0.2;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -200;
+    opacity: 0.2;
+  }
+}
+
+.signal_dot {
+  animation: signalDotMove 2s ease-in-out infinite;
+}
+
+@keyframes signalDotMove {
+  0% { cx: 15px; cy: 90px; opacity: 0; }
+  25% { cx: 65px; cy: 105px; opacity: 1; }
+  50% { cx: 88px; cy: 145px; opacity: 1; }
+  75% { cx: 108px; cy: 100px; opacity: 1; }
+  100% { cx: 165px; cy: 90px; opacity: 0; }
+}
