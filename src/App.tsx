@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
-import UploadMri from "./components/UploadMri";
+import UploadMri, { type AnimationMode } from "./components/UploadMri";
 import Results from "./components/Results";
 import Loading from "./components/Loading";
 import TopBar from "./components/TopBar";
@@ -41,6 +41,7 @@ const App = () => {
   const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [selectedAnimationMode, setSelectedAnimationMode] = useState<AnimationMode>("brain");
 
   useEffect(() => {
     async function loadModel() {
@@ -212,9 +213,17 @@ const App = () => {
 
           {currentTab === "detector" && (
             <>
-              {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
+              {appState === "upload" && (
+                <UploadMri
+                  onClick={handleAnalyze}
+                  selectedAnimationMode={selectedAnimationMode}
+                  onSelectAnimationMode={setSelectedAnimationMode}
+                />
+              )}
 
-              {appState === "loading" && <Loading />}
+              {appState === "loading" && (
+                <Loading animationMode={selectedAnimationMode} />
+              )}
 
               {appState === "result" && analysisResult && (
                 <Results results={analysisResult} onReset={handleReset} />
