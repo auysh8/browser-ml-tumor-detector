@@ -161,7 +161,7 @@ const TopBar = ({
 
       {/* Mobile Theme Toggle Button in Header if Mobile */}
       {isMobile ? (
-        <div className="mobile_header_actions" style={{ position: "absolute", right: "1.25rem", top: "1rem" }}>
+        <div className="mobile_header_actions" style={{ position: "absolute", right: "1rem", top: "0.85rem" }}>
           <button
             className="theme_toggle_btn"
             onClick={toggleDarkMode}
