@@ -319,12 +319,41 @@
 }
 
 @media (max-width: 850px) {
+  .landing_container {
+    gap: 36px;
+    padding: 10px 0 20px 0;
+  }
+  .hero_section {
+    padding: 24px 16px;
+  }
   .hero_title {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+  .hero_ctas {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .cta_primary, .cta_secondary {
+    width: 100%;
+    justify-content: center;
   }
   .hero_highlights,
   .feature_grid,
   .workflow_grid {
     grid-template-columns: 1fr;
+  }
+  .banner_section {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero_title {
+    font-size: 1.6rem;
+  }
+  .hero_subtitle {
+    font-size: 0.92rem;
   }
 }

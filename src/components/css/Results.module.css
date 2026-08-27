@@ -292,14 +292,42 @@
 }
 
 @media (max-width: 850px) {
+  .editorial_wrapper {
+    gap: 16px;
+  }
   .top_finding_grid {
     grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  .cert_number {
+    font-size: 2.5rem;
+  }
+  .chart_columns_grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
   .scan_content_row {
     flex-direction: column;
   }
   .scan_image_frame {
     width: 100%;
-    height: 240px;
+    height: 220px;
+  }
+  .topography_box {
+    padding: 16px;
+  }
+  .topography_footer {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart_columns_grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .cert_number {
+    font-size: 2.2rem;
   }
 }

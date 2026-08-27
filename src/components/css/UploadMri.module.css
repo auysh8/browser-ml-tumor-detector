@@ -114,6 +114,22 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 0.5rem;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .action_bar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .submit_btn {
+    width: 100%;
+    text-align: center;
+  }
+  .privacy_note {
+    text-align: center;
+  }
 }
 
 .submit_btn {
