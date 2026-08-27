@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
-import UploadMri, { type AnimationMode } from "./components/UploadMri";
+import UploadMri from "./components/UploadMri";
 import Results from "./components/Results";
 import Loading from "./components/Loading";
 import TopBar from "./components/TopBar";
@@ -41,7 +41,6 @@ const App = () => {
   const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selectedAnimationMode, setSelectedAnimationMode] = useState<AnimationMode>("brain");
 
   useEffect(() => {
     async function loadModel() {
@@ -74,6 +73,7 @@ const App = () => {
       return;
     }
 
+    const startTime = Date.now();
     setAppState("loading");
 
     try {
@@ -111,7 +111,12 @@ const App = () => {
         percentage: sumProbabilities > 0 ? parseFloat(((prob / sumProbabilities) * 100).toFixed(1)) : 0,
       }));
 
-      await new Promise((r) => setTimeout(r, 1000));
+      // Ensure loading animation runs for at least 2 seconds (2000ms)
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 2000 - elapsedTime);
+      if (remainingTime > 0) {
+        await new Promise((r) => setTimeout(r, remainingTime));
+      }
 
       const resultObj: AnalysisResult = {
         predictions: resultText,
@@ -213,17 +218,9 @@ const App = () => {
 
           {currentTab === "detector" && (
             <>
-              {appState === "upload" && (
-                <UploadMri
-                  onClick={handleAnalyze}
-                  selectedAnimationMode={selectedAnimationMode}
-                  onSelectAnimationMode={setSelectedAnimationMode}
-                />
-              )}
+              {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
 
-              {appState === "loading" && (
-                <Loading animationMode={selectedAnimationMode} />
-              )}
+              {appState === "loading" && <Loading />}
 
               {appState === "result" && analysisResult && (
                 <Results results={analysisResult} onReset={handleReset} />
