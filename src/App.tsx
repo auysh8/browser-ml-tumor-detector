@@ -40,7 +40,17 @@ const App = () => {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth <= 850);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 850) {
+        setIsCollapsed(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     async function loadModel() {
@@ -162,12 +172,26 @@ const App = () => {
 
   return (
     <div className={`workstation_frame ${isDarkMode ? "dark" : ""} ${isCollapsed ? "sidebar-collapsed" : ""}`}>
+      {/* Blur Backdrop for Expanded Sidebar on Small Screens */}
+      {!isCollapsed && (
+        <div
+          className="sidebar_backdrop"
+          onClick={toggleCollapse}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Left Sidebar */}
       <TopBar
         isDarkMode={isDarkMode}
         toggleDarkMode={toggleDarkMode}
         currentTab={currentTab}
-        onTabChange={setCurrentTab}
+        onTabChange={(tab) => {
+          setCurrentTab(tab);
+          if (window.innerWidth <= 850) {
+            setIsCollapsed(true);
+          }
+        }}
         isCollapsed={isCollapsed}
         onToggleCollapse={toggleCollapse}
       />
