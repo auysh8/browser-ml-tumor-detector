@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://auysh8.github.io/browser-ml-tumor-detector",
   "scripts": {
-    "dev": "vite",
+    "dev": "node api.js && vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
