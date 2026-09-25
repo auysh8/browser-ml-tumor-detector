@@ -1,14 +1,15 @@
 import { useState, type ChangeEvent, type DragEvent } from "react";
 import styles from "./css/UploadMri.module.css";
-import { FiUploadCloud } from "react-icons/fi";
+import { FiUploadCloud, FiFile, FiX } from "react-icons/fi";
 
 interface UploadMriProps {
-  onClick: (file: File) => void;
+  onAnalyze: (file: File) => void;
+  isModelReady: boolean;
 }
 
-const UploadMri = ({ onClick }: UploadMriProps) => {
-  const [preview, setPreview] = useState<string | null>(null);
+const UploadMri = ({ onAnalyze, isModelReady }: UploadMriProps) => {
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (selectedFile: File) => {
@@ -42,53 +43,76 @@ const UploadMri = ({ onClick }: UploadMriProps) => {
     }
   };
 
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFile(null);
+    setPreview(null);
+  };
+
   return (
-    <div className={styles.acquisition_card}>
-      <div className={styles.header_row}>
-        <h2 className={styles.acquisition_title}>Import Brain MRI Scan</h2>
+    <div className={styles.upload_container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Upload Brain MRI</h2>
+        <p className={styles.subtitle}>Select or drop an MRI scan to detect and classify tumors</p>
       </div>
 
       <div
-        className={`${styles.dropzone_viewport} ${isDragging ? styles.is_dragging : ""}`}
+        className={`${styles.dropzone} ${isDragging ? styles.dragging : ""} ${preview ? styles.has_preview : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        onClick={() => !preview && document.getElementById("file_upload")?.click()}
       >
         <input
           type="file"
-          name="file_upload"
           id="file_upload"
           accept="image/*"
           onChange={handleFileInput}
+          style={{ display: "none" }}
         />
 
         {preview ? (
-          <div className={styles.preview_container}>
-            <img
-              className={styles.preview_img}
-              src={preview}
-              alt="Scan"
-            />
-            <span className={styles.change_text}>Click or drop file to replace</span>
+          <div className={styles.preview_wrapper}>
+            <img src={preview} alt="MRI preview" className={styles.preview_image} />
+            <div className={styles.preview_info}>
+              <div className={styles.file_details}>
+                <FiFile className={styles.file_icon} />
+                <span className={styles.file_name}>{file?.name}</span>
+                <span className={styles.file_size}>
+                  {file ? (file.size / 1024).toFixed(1) + " KB" : ""}
+                </span>
+              </div>
+              <button
+                type="button"
+                className={styles.remove_btn}
+                onClick={handleRemove}
+                title="Remove image"
+              >
+                <FiX />
+              </button>
+            </div>
           </div>
         ) : (
-          <>
-            <FiUploadCloud className={styles.drop_icon} />
-            <span className={styles.drop_title}>Drop brain MRI scan here</span>
-            <span className={styles.drop_subtitle}>PNG, JPG, JPEG</span>
-          </>
+          <div className={styles.empty_state}>
+            <div className={styles.icon_circle}>
+              <FiUploadCloud className={styles.upload_icon} />
+            </div>
+            <p className={styles.prompt_primary}>
+              <span className={styles.browse_text}>Click to browse</span> or drag & drop
+            </p>
+            <p className={styles.prompt_secondary}>Supports PNG, JPG, or JPEG</p>
+          </div>
         )}
       </div>
 
-      <div className={styles.action_bar}>
-        <span className={styles.privacy_note}>🔒 100% Client-Side</span>
+      <div className={styles.action_row}>
         <button
-          className={styles.submit_btn}
-          onClick={() => file && onClick(file)}
-          disabled={!file}
           type="button"
+          className={styles.analyze_button}
+          onClick={() => file && onAnalyze(file)}
+          disabled={!file || !isModelReady}
         >
-          Run Analysis →
+          {!isModelReady ? "Loading Model..." : "Analyze Scan"}
         </button>
       </div>
     </div>

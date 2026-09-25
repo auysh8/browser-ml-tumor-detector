@@ -1,20 +1,10 @@
 import { useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import UploadMri from "./components/UploadMri";
-import Results from "./components/Results";
 import Loading from "./components/Loading";
-import TopBar from "./components/TopBar";
-import About from "./components/About";
-import LandingPage from "./components/LandingPage";
-import ScanArchive from "./components/ScanArchive";
+import Results from "./components/Results";
+import { FiSun, FiMoon } from "react-icons/fi";
 import "./App.css";
-
-export interface ArchiveEntry {
-  id: string;
-  timestamp: string;
-  filename: string;
-  result: AnalysisResult;
-}
 
 export interface AnalysisResult {
   predictions: string;
@@ -36,21 +26,10 @@ const CLASSES: { [key: number]: string } = {
 const App = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
   const [appState, setAppState] = useState<"upload" | "loading" | "result">("upload");
-  const [currentTab, setCurrentTab] = useState<"landing" | "detector" | "archive" | "about">("landing");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-  const [scanHistory, setScanHistory] = useState<ArchiveEntry[]>([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth <= 850);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 850) {
-        setIsCollapsed(true);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
     async function loadModel() {
@@ -74,12 +53,11 @@ const App = () => {
     }
   }, [isDarkMode]);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
 
   const handleAnalyze = async (file: File) => {
     if (!model) {
-      alert("Model is loading. Please wait a moment.");
+      alert("Model is still loading. Please wait a moment.");
       return;
     }
 
@@ -88,7 +66,6 @@ const App = () => {
 
     try {
       const objectUrl = URL.createObjectURL(file);
-
       const imgElement = document.createElement("img");
       imgElement.src = objectUrl;
 
@@ -121,35 +98,21 @@ const App = () => {
         percentage: sumProbabilities > 0 ? parseFloat(((prob / sumProbabilities) * 100).toFixed(1)) : 0,
       }));
 
-      // Ensure loading animation runs for at least 2 seconds (2000ms)
+      // Smooth minimum display time for the scanning animation (1.8s)
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 2000 - elapsedTime);
+      const remainingTime = Math.max(0, 1800 - elapsedTime);
       if (remainingTime > 0) {
         await new Promise((r) => setTimeout(r, remainingTime));
       }
 
-      const resultObj: AnalysisResult = {
+      setAnalysisResult({
         predictions: resultText,
         confidence: confidencePercent,
-        urgency:
-          resultText === "No Tumor" || resultText === "Not an MRI"
-            ? "None"
-            : "High",
+        urgency: resultText === "No Tumor" || resultText === "Not an MRI" ? "None" : "High",
         image: objectUrl,
         isError: false,
         classProbabilities,
-      };
-
-      setAnalysisResult(resultObj);
-
-      const newEntry: ArchiveEntry = {
-        id: Date.now().toString(),
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        filename: file.name,
-        result: resultObj,
-      };
-
-      setScanHistory((prev) => [newEntry, ...prev]);
+      });
 
       setAppState("result");
     } catch (error) {
@@ -171,98 +134,50 @@ const App = () => {
   };
 
   return (
-    <div className={`workstation_frame ${isDarkMode ? "dark" : ""} ${isCollapsed ? "sidebar-collapsed" : ""}`}>
-      {/* Blur Backdrop for Expanded Sidebar on Small Screens */}
-      {!isCollapsed && (
-        <div
-          className="sidebar_backdrop"
-          onClick={toggleCollapse}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Left Sidebar */}
-      <TopBar
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-        currentTab={currentTab}
-        onTabChange={(tab) => {
-          setCurrentTab(tab);
-          if (window.innerWidth <= 850) {
-            setIsCollapsed(true);
-          }
-        }}
-        isCollapsed={isCollapsed}
-        onToggleCollapse={toggleCollapse}
-      />
-
-      {/* Main Right Area */}
-      <main className="main_panel bg-dotted-grid">
-        <div>
-          {/* Main Panel Header */}
-          <div className="panel_header">
-            <div className="header_titles">
-              <h1 className="main_title">
-                {currentTab === "landing"
-                  ? "NeuroScan AI"
-                  : currentTab === "about"
-                  ? "Model Specs"
-                  : currentTab === "archive"
-                  ? "Scan History"
-                  : "Diagnostic Workstation"}
-              </h1>
-            </div>
-          </div>
-
-          {/* Active View */}
-          {currentTab === "landing" && (
-            <LandingPage
-              onLaunchDashboard={() => setCurrentTab("detector")}
-              onViewModelSpecs={() => setCurrentTab("about")}
-            />
-          )}
-
-          {currentTab === "about" && <About />}
-
-          {currentTab === "archive" && (
-            <ScanArchive
-              history={scanHistory}
-              onSelectResult={(res) => {
-                setAnalysisResult(res);
-                setAppState("result");
-                setCurrentTab("detector");
-              }}
-              onClearHistory={() => setScanHistory([])}
-              onNewScan={() => {
-                handleReset();
-                setCurrentTab("detector");
-              }}
-            />
-          )}
-
-          {currentTab === "detector" && (
-            <>
-              {appState === "upload" && <UploadMri onClick={handleAnalyze} />}
-
-              {appState === "loading" && <Loading />}
-
-              {appState === "result" && analysisResult && (
-                <Results results={analysisResult} onReset={handleReset} />
-              )}
-            </>
-          )}
+    <div className="app_wrapper">
+      <header className="app_header">
+        <div className="brand_group">
+          <span className="brand_dot" />
+          <h1 className="brand_title">NeuroScan</h1>
+          <span className="model_status">
+            {model ? (
+              <span className="status_ready" title="TensorFlow.js model loaded">
+                ● Ready
+              </span>
+            ) : (
+              <span className="status_loading" title="Loading TensorFlow.js model...">
+                ○ Loading model...
+              </span>
+            )}
+          </span>
         </div>
 
-        {/* Editorial Footer */}
-        <footer className="panel_footer">
-          <div>
-            <span>NeuroScan AI Workstation</span>
-          </div>
-          <div className="team_names">
-            <span>TensorFlow.js Engine</span>
-          </div>
-        </footer>
+        <button
+          type="button"
+          onClick={toggleDarkMode}
+          className="theme_toggle"
+          aria-label="Toggle theme"
+          title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {isDarkMode ? <FiSun /> : <FiMoon />}
+        </button>
+      </header>
+
+      <main className="main_container">
+        {appState === "upload" && (
+          <UploadMri onAnalyze={handleAnalyze} isModelReady={!!model} />
+        )}
+
+        {appState === "loading" && <Loading />}
+
+        {appState === "result" && analysisResult && (
+          <Results results={analysisResult} onReset={handleReset} />
+        )}
       </main>
+
+      <footer className="app_footer">
+        <span>Private & on-device • TensorFlow.js</span>
+      </footer>
     </div>
   );
 };
