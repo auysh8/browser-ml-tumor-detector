@@ -1,52 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Editorial Warm Beige Light Theme */
-  --bg-app: #e8e5dd;
-  --bg-card: #f6f4ee;
-  --bg-card-sub: #edeae2;
-  --bg-input: #e3dfd6;
-  --bg-pill-active: #222220;
+  --bg-app: #f4f4f5;
+  --bg-card: #ffffff;
+  --bg-card-sub: #fafafa;
+  --bg-input: #f4f4f5;
+  --bg-pill-active: #18181b;
   --text-pill-active: #ffffff;
 
-  --text-main: #1e1e1c;
-  --text-muted: #787670;
-  --text-mono: #504e48;
-  --border-subtle: #dad6cc;
+  --text-main: #18181b;
+  --text-muted: #71717a;
+  --text-mono: #52525b;
+  --border-subtle: #e4e4e7;
 
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-glioma: #6d3a58;
-  --color-meningioma: #b86a82;
-  --color-pituitary: #c68a5c;
-  --color-notumor: #6e8c75;
+  --color-glioma: #8b5cf6;
+  --color-meningioma: #ec4899;
+  --color-pituitary: #f97316;
+  --color-notumor: #10b981;
 
-  --shadow-main: 0 20px 50px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-main: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Dark Mode Editorial Obsidian Theme */
 html.dark, body.dark, .dark {
-  --bg-app: #0f1012;
-  --bg-card: #181a1e;
-  --bg-card-sub: #21242a;
-  --bg-input: #282c33;
-  --bg-pill-active: #383d47;
-  --text-pill-active: #ffffff;
+  --bg-app: #09090b;
+  --bg-card: #121215;
+  --bg-card-sub: #18181b;
+  --bg-input: #202024;
+  --bg-pill-active: #f4f4f5;
+  --text-pill-active: #09090b;
 
-  --text-main: #f0f2f5;
-  --text-muted: #9aa1ad;
-  --text-mono: #828a96;
-  --border-subtle: #2b2f38;
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-mono: #71717a;
+  --border-subtle: #27272a;
 
-  --color-glioma: #a65886;
-  --color-meningioma: #d9829a;
-  --color-pituitary: #e09f72;
-  --color-notumor: #89a891;
+  --color-glioma: #a78bfa;
+  --color-meningioma: #f472b6;
+  --color-pituitary: #fb923c;
+  --color-notumor: #34d399;
 
-  --shadow-main: 0 20px 50px rgba(0, 0, 0, 0.5);
-  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-main: 0 4px 25px -2px rgba(0, 0, 0, 0.5);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -64,16 +62,14 @@ html, body {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 #root {
   min-height: 100vh;
   width: 100%;
   display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  padding: 0;
+  flex-direction: column;
 }
 
 button, input, select, textarea {
@@ -90,14 +86,4 @@ ul, ol {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-/* Utility for Dotted Grid Pattern */
-.bg-dotted-grid {
-  background-image: radial-gradient(var(--border-subtle) 1.2px, transparent 1.2px);
-  background-size: 18px 18px;
-}
-
-.mono {
-  font-family: var(--font-mono);
 }
